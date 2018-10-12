@@ -1,5 +1,5 @@
 {
-  "name": "tags-input",
+  "name": "sudoku-game",
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",
@@ -11,21 +11,21 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/slavikzdebskyy/sudoku-game"
   },
-  "author": "",
+  "author": "Zdebskyy Yaroslav",
   "license": "ISC",
   "bugs": {
-    "url": ""
+    "url": "https://github.com/slavikzdebskyy/sudoku-game/issues"
   },
-  "homepage": "",
+  "homepage": "https://github.com/slavikzdebskyy/sudoku-game#readme",
   "devDependencies": {
-    "browser-sync": "^2.24.7",
+    "browser-sync": "^2.26.0",
     "eslint": "^5.6.1",
     "eslint-watch": "^4.0.2",
-    "stylelint": "^9.6.0",
-    "stylelint-config-standard": "^18.2.0",
     "less": "^3.8.1",
-    "less-watch-compiler": "^1.11.3"
+    "less-watch-compiler": "^1.11.3",
+    "stylelint": "^9.6.0",
+    "stylelint-config-standard": "^18.2.0"
   }
 }

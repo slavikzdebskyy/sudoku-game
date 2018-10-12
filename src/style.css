@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  background: #ffe6f0;
 }
 main {
   width: 100%;
@@ -13,8 +14,8 @@ main #field {
   flex-wrap: wrap;
   width: 450px;
   height: 450px;
-  border: 3px solid #248f8f;
-  border-right: 1px solid #248f8f;
+  border: 3px solid #663300;
+  border-right: 1px solid #663300;
   border-radius: 5px;
 }
 main #field .cell {
@@ -32,16 +33,17 @@ main #field .cell {
   text-align: center;
 }
 main #field .cell:nth-of-type(3n) {
-  border-right: 3px solid #248f8f;
+  border-right: 3px solid #663300;
 }
 main #field .cell.brdr-bttm {
-  border-bottom: 3px solid #248f8f;
+  border-bottom: 3px solid #663300;
 }
 main #field .cell:hover {
   border: 3px solid #248f8f;
   border-radius: 5px;
 }
 main #field .cell:disabled {
-  background: #888888;
+  background: #cccccc;
   outline: none;
+  text-shadow: 0 0 0 #2196f3;
 }

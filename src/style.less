@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  // box-sizing: border-box;
+  background: #ffe6f0;
 }
 
 main {
@@ -14,8 +14,8 @@ main {
     flex-wrap: wrap;
     width: 450px;
     height: 450px;
-    border: 3px solid #248f8f;
-    border-right: 1px solid #248f8f;
+    border: 3px solid #663300;
+    border-right: 1px solid #663300;
     border-radius: 5px;
     .cell {
       outline: none;
@@ -31,18 +31,19 @@ main {
       font-weight: bold;
       text-align: center;
       &:nth-of-type(3n){
-        border-right: 3px solid #248f8f;
+        border-right: 3px solid #663300;
       }
       &.brdr-bttm {
-        border-bottom: 3px solid #248f8f;
+        border-bottom: 3px solid #663300;
       }
       &:hover {
         border: 3px solid #248f8f;
         border-radius: 5px;
       }
       &:disabled {
-        background: #888888;
-        outline: none;       
+        background: #cccccc;
+        outline: none;    
+        text-shadow: 0 0 0 #2196f3;   
       }
     }
   }
