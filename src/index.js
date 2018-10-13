@@ -52,22 +52,23 @@ const checkSimpleArr = array => {
 const checkColumnsAndRows = array => {
   let j = 0;
   let column;
+  let check = true;
   const len = array.length;
-  do {
-    for(let i = 0; i < len; i++){
-      if(!checkSimpleArr(array[i])){
-        return false;
-      }
-      column = array.map(el=>{
-        return el[j];
-      });     
+  array.forEach(el => {
+    if(!checkSimpleArr(el)){
+      check = false;
     }
+  });
+  while(j < len){    
+    column = array.map(el=>{
+      return el[j];
+    });     
     if(!checkSimpleArr(column)){      
-      return false;
+      check = false;
     }
     j++;    
-  } while(j < len);  
-  return true;
+  }
+  return check;
 };//  END of function checkColumnsAndRows(arr)
 
 //  function checkBlocks(arr) checks whether 
@@ -100,19 +101,6 @@ const checkBlocks = array => {
   });
   return check;
 };//  END of function checkBlocks(arr)
-
-
-
-// *-*-*-*-*-*-*-*--**-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--**-*--*-*-*-*-*-*-*-*-
-// *-*-*-*-*-*-*-*--**-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--**-*--*-*-*-*-*-*-*-*-
-
-
-
-
-
-// *-*-*-*-*-*-*-*--**-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--**-*--*-*-*-*-*-*-*-*-
-// *-*-*-*-*-*-*-*--**-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--**-*--*-*-*-*-*-*-*-*-
-
 
 //  function createBoard(arr) creates HTML tags
 //  and rendered start board:
