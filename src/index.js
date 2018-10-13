@@ -31,22 +31,24 @@ $field.addEventListener('keydown', ({target, keyCode}) => {
 });// END of input's validation
 
 //  function checkSimpleArr(arr) checks whether 
-//  all the elements are unique in a simple array:
+//  all the elements are unique in a simple array
+//  return "false" if elements repeat
+//  return "true" if all elements is unique:
 const checkSimpleArr = array => { 
-  const len = array.length;
-  for(let i = 0; i < len; i++){
-    for(let j = i + 1; j < len; j++){
-      if(array[i] === array[j]){
-        return false;
-      }
-    }
-  }
-  return true;
+  let check = true;
+  array.forEach((el, index) => {
+    if(array.slice(index + 1, array.length).includes(el)){
+      check = false;
+    }    
+  });
+  return check;
 };//  END function checkSimpleArr(arr)
 
 
 //  function checkColumnsAndRows(arr) checks whether 
-//  all the elements are unique in rows and columns of array:
+//  all the elements are unique in rows and columns of array(board)
+//  return "false" if elements repeat
+//  return "true" if all elements is unique:
 const checkColumnsAndRows = array => {
   let j = 0;
   let column;
@@ -67,6 +69,50 @@ const checkColumnsAndRows = array => {
   } while(j < len);  
   return true;
 };//  END of function checkColumnsAndRows(arr)
+
+//  function checkBlocks(arr) checks whether 
+//  all the elements are unique in blocks of array(board)
+//  return "false" if elements repeat
+//  return "true" if all elements is unique:
+const checkBlocks = array => {
+  let block1 = [];
+  let block2 = [];
+  let block3 = [];  
+  let check = true;
+  array.forEach(el => {
+    block1 = block1.concat(el.slice(0,3));
+    block2 = block2.concat(el.slice(3,6));
+    block3 = block3.concat(el.slice(6,9));
+    if(block1.length === 9){
+      if(!checkSimpleArr(block1)) {
+        check = false;
+      }
+      if(!checkSimpleArr(block2)) {
+        check = false;
+      }
+      if(!checkSimpleArr(block3)) {
+        check = false;
+      }      
+      block1 = [];
+      block2 = [];
+      block3 = [];
+    }
+  });
+  return check;
+};//  END of function checkBlocks(arr)
+
+
+
+// *-*-*-*-*-*-*-*--**-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--**-*--*-*-*-*-*-*-*-*-
+// *-*-*-*-*-*-*-*--**-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--**-*--*-*-*-*-*-*-*-*-
+
+
+
+
+
+// *-*-*-*-*-*-*-*--**-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--**-*--*-*-*-*-*-*-*-*-
+// *-*-*-*-*-*-*-*--**-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--**-*--*-*-*-*-*-*-*-*-
+
 
 //  function createBoard(arr) creates HTML tags
 //  and rendered start board:
@@ -110,7 +156,7 @@ const getBoard = () => {
   return board;
 };//  END function getBoard()
 
-//  function rotateRows(arr, firstIndex, secondIndex) rotates rows
+//  function rotateRows(arr, firstIndex, secondIndex) rotates 2 rows
 const rotateRows = (array, firstIndex, secondIndex) => {   
   if((firstIndex >= 0 && secondIndex <=2) ||
     (firstIndex >= 3 && secondIndex <=5) ||
@@ -124,12 +170,27 @@ const rotateRows = (array, firstIndex, secondIndex) => {
   }
 };//  END of function rotateRows(arr, firstIndex, secondIndex)
 
+//  function rotateColumns(arr, firstIndex, secondIndex) rotates 2 columns
+const rotateColumns = (array, firstIndex, secondIndex) => {
+  let el;
+  const len = array.length;
+  if((firstIndex >= 0 && secondIndex <=2) ||
+    (firstIndex >= 3 && secondIndex <=5) ||
+    (firstIndex >= 6 && secondIndex <=8)){
+    for(let i = 0; i < len; i++){
+      el = array[i][firstIndex];
+      array[i][firstIndex] = array[i][secondIndex];
+      array[i][secondIndex] = el;
+    }
+  }
+  else {
+    return array;
+  }
+};// END function rotateColumns(arr, firstIndex, secondIndex)
 
-
-
-
+// triple
 
 
 // rotateRows(net,6,7);
-
+// rotateColumns(net, 3,6);
 createBoard(net);
