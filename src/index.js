@@ -160,25 +160,30 @@ const rotateRows = (array, firstIndex, secondIndex) => {
 
 //  function rotateColumns(arr, firstIndex, secondIndex) rotates 2 columns
 const rotateColumns = (array, firstIndex, secondIndex) => {
-  let el;
-  const len = array.length;
-  if((firstIndex >= 0 && secondIndex <=2) ||
-    (firstIndex >= 3 && secondIndex <=5) ||
-    (firstIndex >= 6 && secondIndex <=8)){
-    for(let i = 0; i < len; i++){
-      el = array[i][firstIndex];
-      array[i][firstIndex] = array[i][secondIndex];
-      array[i][secondIndex] = el;
-    }
+  let helpElem;
+  if( (firstIndex >= 0 && secondIndex <=2) ||
+      (firstIndex >= 3 && secondIndex <=5) ||
+      (firstIndex >= 6 && secondIndex <=8)    ){
+    array.forEach(el => {
+      helpElem = el[firstIndex];
+      el[firstIndex] = el[secondIndex];
+      el[secondIndex] = helpElem;
+    });
   }
   else {
     return array;
   }
 };// END function rotateColumns(arr, firstIndex, secondIndex)
 
+
+
+
+
+
 // triple
 
 
 // rotateRows(net,6,7);
-// rotateColumns(net, 3,6);
-createBoard(net);
+// rotateColumns(net, 0, 2);
+// createBoard(net);
+// console.log(getBoard());
