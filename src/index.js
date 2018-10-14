@@ -154,7 +154,7 @@ const rotateRows = (array, firstIndex, secondIndex) => {
     array.splice(secondIndex, 1, el);
   }
   else {
-    return array;
+    return;
   }
 };//  END of function rotateRows(arr, firstIndex, secondIndex)
 
@@ -171,19 +171,151 @@ const rotateColumns = (array, firstIndex, secondIndex) => {
     });
   }
   else {
-    return array;
+    return;
   }
 };// END function rotateColumns(arr, firstIndex, secondIndex)
 
+//  function rotateBlockOfRows(arr, firstBlock, secondBlock) 
+//  rotates 2 blocks(1 block contains 3 rows):
+const rotateBlockOfRows = (array, firstBlock, secondBlock) => {
+  if( (firstBlock < 1) || (firstBlock > 3) ||
+      (secondBlock < 1) || (secondBlock > 3) ||
+      (firstBlock === secondBlock)) {        
+    return;
+  }
+  let helpRow;
+  if( ((firstBlock === 1) && (secondBlock === 2)) ||
+      ((firstBlock === 2) && (secondBlock === 1))) { 
+    helpRow = array[0]; 
+    array.splice(0, 1, array[3]);
+    array.splice(3, 1, helpRow);
+    helpRow = array[1]; 
+    array.splice(1, 1, array[4]);
+    array.splice(4, 1, helpRow);
+    helpRow = array[2]; 
+    array.splice(2, 1, array[5]);
+    array.splice(5, 1, helpRow);
+  } else {
+    if( ((firstBlock === 1) && (secondBlock === 3)) ||
+        ((firstBlock === 3) && (secondBlock === 1))) {
+      helpRow = array[0]; 
+      array.splice(0, 1, array[6]);
+      array.splice(6, 1, helpRow);
+      helpRow = array[1]; 
+      array.splice(1, 1, array[7]);
+      array.splice(7, 1, helpRow);
+      helpRow = array[2]; 
+      array.splice(2, 1, array[8]);
+      array.splice(8, 1, helpRow);
+    } else {
+      if( ((firstBlock === 2) && (secondBlock === 3)) ||
+          ((firstBlock === 3) && (secondBlock === 2))) {
+        helpRow = array[3]; 
+        array.splice(3, 1, array[6]);
+        array.splice(6, 1, helpRow);
+        helpRow = array[4]; 
+        array.splice(4, 1, array[7]);
+        array.splice(7, 1, helpRow);
+        helpRow = array[5]; 
+        array.splice(5, 1, array[8]);
+        array.splice(8, 1, helpRow);
+      }
+    }
+  }
+};
+
+//  function rotateBlockOfColumns(arr, firstBlock, secondBlock) 
+//  rotates 2 blocks(1 block contains 3 columns):
+const rotateBlockOfColumns = (array, firstBlock, secondBlock) => {
+  if( (firstBlock < 1) || (firstBlock > 3) ||
+      (secondBlock < 1) || (secondBlock > 3) ||
+      (firstBlock === secondBlock)) {        
+    return;
+  }
+  let helpElem;
+  if( ((firstBlock === 1) && (secondBlock === 2)) ||
+      ((firstBlock === 2) && (secondBlock === 1))) {
+    array.forEach(el => {
+      helpElem = el[0];
+      el[0] = el[3];
+      el[3] = helpElem;
+      helpElem = el[1];
+      el[1] = el[4];
+      el[4] = helpElem;
+      helpElem = el[2];
+      el[2] = el[5];
+      el[5] = helpElem;
+    });
+  } else {
+    if( ((firstBlock === 1) && (secondBlock === 3)) ||
+        ((firstBlock === 3) && (secondBlock === 1))) {
+      array.forEach(el => {
+        helpElem = el[0];
+        el[0] = el[6];
+        el[6] = helpElem;
+        helpElem = el[1];
+        el[1] = el[7];
+        el[7] = helpElem;
+        helpElem = el[2];
+        el[2] = el[8];
+        el[8] = helpElem;
+      });
+    } else {
+      if( ((firstBlock === 2) && (secondBlock === 3)) ||
+          ((firstBlock === 3) && (secondBlock === 2))){
+        array.forEach(el => {
+          helpElem = el[3];
+          el[3] = el[6];
+          el[6] = helpElem;
+          helpElem = el[4];
+          el[4] = el[7];
+          el[7] = helpElem;
+          helpElem = el[5];
+          el[5] = el[8];
+          el[8] = helpElem;
+        });
+      }
+    }
+  }
+};//  END of function rotateBlockOfColumns(arr, firstBlock, secondBlock) 
+
+
+//  function transportingBoard(arr) rotate array
+//  columns => rows
+//  rows => columns:
+const transportingBoard = array => {
+  const copyArr = array.slice(0, array.length);
+  const len = array.length;
+  let row = [];
+  while(array.length){
+    array.pop();
+  }
+  for(let i = 0; i < len; i++){
+    for(let j = 0; j < len; j++){
+      row.push(copyArr[j][i]);
+    }
+    array.push(row);
+    row = [];
+  }
+};//  END of function transportingBoard(arr)
 
 
 
 
 
+
+
+// transportingBoard(net);
+// rotateTripleColumns(net, 1,4)
+// rotateRows(net, 0, 3);
 // triple
-
-
 // rotateRows(net,6,7);
 // rotateColumns(net, 0, 2);
-// createBoard(net);
-// console.log(getBoard());
+// console.log(arr);
+
+
+
+
+
+
+createBoard(net);
