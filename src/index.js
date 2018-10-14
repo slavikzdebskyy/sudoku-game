@@ -3,18 +3,29 @@
 'use strict';
 
 const $field = document.getElementById('field');  //  div => game board
+const $checkBtn = document.getElementById('check-btn'); // button Check
 
 const net = [
-  [1,2,3,4,5,6,7,8,9],
-  [4,5,6,7,8,9,1,2,3],
-  [7,8,9,1,2,3,4,5,6],
-  [2,3,4,5,6,7,8,9,1],
-  [5,6,7,8,9,1,2,3,4],
-  [8,9,1,2,3,4,5,6,7],
-  [3,4,5,6,7,8,9,1,2],
-  [6,7,8,9,1,2,3,4,5],
-  [9,1,2,3,4,5,6,7,8]  
+  [0,2,3,4,5,6,7,8,9],
+  [4,0,6,7,8,9,1,2,3],
+  [7,8,0,1,2,3,4,5,6],
+  [2,3,4,0,6,7,8,9,1],
+  [5,6,7,8,0,1,2,3,4],
+  [8,9,1,2,3,0,5,6,7],
+  [3,4,5,6,7,8,0,1,2],
+  [6,7,8,9,1,2,3,0,5],
+  [9,1,2,3,4,5,6,7,0]  
 ];
+
+// [1,2,3,4,5,6,7,8,9],
+// [4,5,6,7,8,9,1,2,3],
+// [7,8,9,1,2,3,4,5,6],
+// [2,3,4,5,6,7,8,9,1],
+// [5,6,7,8,9,1,2,3,4],
+// [8,9,1,2,3,4,5,6,7],
+// [3,4,5,6,7,8,9,1,2],
+// [6,7,8,9,1,2,3,4,5],
+// [9,1,2,3,4,5,6,7,8]  
 
 
 //  input's validation (user can enter only numbers):
@@ -29,6 +40,21 @@ $field.addEventListener('keydown', ({target, keyCode}) => {
     return true;    
   };
 });// END of input's validation
+
+//  input set in focus when mouseover(hover):
+$field.addEventListener('mouseover', ({target}) => {
+  target.focus();
+});//  END of input set in focus when mouseover(hover)
+
+$checkBtn.addEventListener('click', () => {
+  const filledBoard = getBoard();
+  if(checkColumnsAndRows(filledBoard) && checkBlocks(filledBoard)){
+    console.log('Well done');
+  } else {
+    console.error('Wrong !!!');
+  }
+  // console.log(filledBoard);
+});
 
 //  function checkSimpleArr(arr) checks whether 
 //  all the elements are unique in a simple array
@@ -317,5 +343,15 @@ const transportingBoard = array => {
 
 
 
-
+transportingBoard(net);
+rotateColumns(net, 1, 3);
+rotateColumns(net, 4, 6);
+rotateColumns(net, 7, 8);
+rotateColumns(net, 4, 5);
+rotateRows(net, 1, 3);
+rotateRows(net, 4, 6);
+rotateRows(net, 7, 8);
+rotateRows(net, 4, 5);
+rotateBlockOfColumns(net, 1, 3);
+rotateBlockOfRows(net, 2, 3);
 createBoard(net);
