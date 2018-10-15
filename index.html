@@ -9,10 +9,31 @@
 </head>
 <body>
   <main>
-    <div id="field">
-      
+    <div id="difficulty">
+        <label class="check-container">Easy
+          <input type="radio" checked="checked" name="difficult" value="0">
+          <span class="checkmark"></span>
+        </label>
+        <label class="check-container">Medium
+          <input type="radio" name="difficult" value="1">
+          <span class="checkmark"></span>
+        </label>
+        <label class="check-container">Hard
+          <input type="radio" name="difficult" value="2">
+          <span class="checkmark"></span>
+        </label>
     </div>
-    <button id="check-btn">Check</button>
+    <div>
+      <div id="field">   
+      </div>
+      <div class="controls">
+        <button id="strt-btn" class="ctrl-btn">Start</button>
+        <button id="check-btn" class="ctrl-btn">Check</button>
+        <button id="rstrt-btn" class="ctrl-btn rstrt">Restart</button>
+        <button id="nwgm-btn" class="ctrl-btn nwgm">New Game</button>
+      </div>
+    </div>
+        
   </main>
 </body>
 <script src="src/index.js"></script>

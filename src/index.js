@@ -4,28 +4,33 @@
 
 const $field = document.getElementById('field');  //  div => game board
 const $checkBtn = document.getElementById('check-btn'); // button Check
+const $newGameBtn = document.getElementById('nwgm-btn'); // button New Game
+
 
 const net = [
-  [0,2,3,4,5,6,7,8,9],
-  [4,0,6,7,8,9,1,2,3],
-  [7,8,0,1,2,3,4,5,6],
-  [2,3,4,0,6,7,8,9,1],
-  [5,6,7,8,0,1,2,3,4],
-  [8,9,1,2,3,0,5,6,7],
-  [3,4,5,6,7,8,0,1,2],
-  [6,7,8,9,1,2,3,0,5],
-  [9,1,2,3,4,5,6,7,0]  
+  [1,2,3,4,5,6,7,8,9],
+  [4,5,6,7,8,9,1,2,3],
+  [7,8,9,1,2,3,4,5,6],
+  [2,3,4,5,6,7,8,9,1],
+  [5,6,7,8,9,1,2,3,4],
+  [8,9,1,2,3,4,5,6,7],
+  [3,4,5,6,7,8,9,1,2],
+  [6,7,8,9,1,2,3,4,5],
+  [9,1,2,3,4,5,6,7,8]  
+];
+const sheme = [
+  [1,2,3,4,5,6,7,8,9],
+  [4,5,6,7,8,9,1,2,3],
+  [7,8,9,1,2,3,4,5,6],
+  [2,3,4,5,6,7,8,9,1],
+  [5,6,7,8,9,1,2,3,4],
+  [8,9,1,2,3,4,5,6,7],
+  [3,4,5,6,7,8,9,1,2],
+  [6,7,8,9,1,2,3,4,5],
+  [9,1,2,3,4,5,6,7,8]  
 ];
 
-// [1,2,3,4,5,6,7,8,9],
-// [4,5,6,7,8,9,1,2,3],
-// [7,8,9,1,2,3,4,5,6],
-// [2,3,4,5,6,7,8,9,1],
-// [5,6,7,8,9,1,2,3,4],
-// [8,9,1,2,3,4,5,6,7],
-// [3,4,5,6,7,8,9,1,2],
-// [6,7,8,9,1,2,3,4,5],
-// [9,1,2,3,4,5,6,7,8]  
+  
 
 
 //  input's validation (user can enter only numbers):
@@ -46,6 +51,28 @@ $field.addEventListener('mouseover', ({target}) => {
   target.focus();
 });//  END of input set in focus when mouseover(hover)
 
+
+// --*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-||
+
+$newGameBtn.addEventListener('click', () => {
+  while($field.firstChild){
+    $field.removeChild($field.firstChild);
+  }
+  while(net.length){
+    net.pop();
+  }
+  
+  sheme.forEach(el => {
+    net.push(el);
+  });
+  console.log(net)
+  newGame(net);
+  createBoard(net);
+});
+
+
+
+
 $checkBtn.addEventListener('click', () => {
   const filledBoard = getBoard();
   if(checkColumnsAndRows(filledBoard) && checkBlocks(filledBoard)){
@@ -55,6 +82,9 @@ $checkBtn.addEventListener('click', () => {
   }
   // console.log(filledBoard);
 });
+// --*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-||
+
+
 
 //  function checkSimpleArr(arr) checks whether 
 //  all the elements are unique in a simple array
@@ -329,7 +359,8 @@ const transportingBoard = array => {
 
 
 
-
+// let a = 
+// console.log(a);
 
 // transportingBoard(net);
 // rotateTripleColumns(net, 1,4)
@@ -337,21 +368,55 @@ const transportingBoard = array => {
 // triple
 // rotateRows(net,6,7);
 // rotateColumns(net, 0, 2);
-// console.log(arr);
+
+
+const newGame = array => {
+  const $difficutlyCont = document.getElementById('difficulty');
+  const $difficutlyVal = $difficutlyCont.getElementsByTagName('input');
+  let difficulty;
+  let i,j;
+  const diffSheme = {
+    cells: 45,
+    emptyRC: 1
+  };
+  for(let el of $difficutlyVal) {
+    if(el.checked){
+      difficulty = el.value;
+    }
+  }
+  switch(difficulty) {
+    case 0:
+      diffSheme.cells = 45;
+      diffSheme.emptyRC = 0;
+      break;
+    case 1:
+      diffSheme.cells = 55;
+      diffSheme.emptyRC = 1;
+      break;
+    case 2:
+      diffSheme.cells = 60;
+      diffSheme.emptyRC = 2;
+  }
+  for(let k = 0; k <= diffSheme.cells; k++){
+    i = Math.floor((Math.random() * 9));
+    j = Math.floor((Math.random() * 9));
+    array[i][j] = 0;
+  }
+
+};
 
 
 
-
-
-transportingBoard(net);
-rotateColumns(net, 1, 3);
-rotateColumns(net, 4, 6);
-rotateColumns(net, 7, 8);
-rotateColumns(net, 4, 5);
-rotateRows(net, 1, 3);
-rotateRows(net, 4, 6);
-rotateRows(net, 7, 8);
-rotateRows(net, 4, 5);
-rotateBlockOfColumns(net, 1, 3);
-rotateBlockOfRows(net, 2, 3);
+newGame(net);
+// transportingBoard(net);
+// rotateColumns(net, 1, 3);
+// rotateColumns(net, 4, 6);
+// rotateColumns(net, 7, 8);
+// rotateColumns(net, 4, 5);
+// rotateRows(net, 1, 3);
+// rotateRows(net, 4, 6);
+// rotateRows(net, 7, 8);
+// rotateRows(net, 4, 5);
+// rotateBlockOfColumns(net, 1, 3);
+// rotateBlockOfRows(net, 2, 3);
 createBoard(net);

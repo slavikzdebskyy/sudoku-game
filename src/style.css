@@ -8,6 +8,7 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 main #field {
   display: flex;
@@ -46,4 +47,84 @@ main #field .cell:disabled {
   background: #cccccc;
   outline: none;
   text-shadow: 0 0 0 #2196f3;
+}
+main .controls {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 100px;
+  width: 450px;
+}
+main .controls .ctrl-btn {
+  border: 2px solid #000000;
+  border-radius: 10px;
+  background: #fff;
+  border-color: #2196F3;
+  color: #2196F3;
+  padding: 14px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s ease-out;
+}
+main .controls .ctrl-btn:hover {
+  background: #2196F3;
+  color: #fff;
+}
+main .controls .nwgm:hover,
+main .controls .rstrt:hover {
+  color: red;
+}
+main #difficulty {
+  width: 130px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+main #difficulty .check-container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 18px;
+}
+main #difficulty .check-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+main #difficulty .check-container .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+main #difficulty .check-container .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+main #difficulty .check-container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+main #difficulty .check-container input:checked ~ .checkmark {
+  background-color: #2196f3;
+}
+main #difficulty .check-container input:checked ~ .checkmark:after {
+  display: block;
+}
+main #difficulty .check-container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
 }
