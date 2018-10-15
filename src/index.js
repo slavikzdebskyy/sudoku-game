@@ -5,9 +5,10 @@
 const $field = document.getElementById('field');  //  div => game board
 const $checkBtn = document.getElementById('check-btn'); // button Check
 const $newGameBtn = document.getElementById('nwgm-btn'); // button New Game
+const restartBtn = document.getElementById('rstrt-btn');  //  button Restart
+const copyArrayForRestart =[];  //  copy boardArray if user want replay this puzzle
 
-
-const net = [
+const boardArray = [
   [1,2,3,4,5,6,7,8,9],
   [4,5,6,7,8,9,1,2,3],
   [7,8,9,1,2,3,4,5,6],
@@ -18,7 +19,7 @@ const net = [
   [6,7,8,9,1,2,3,4,5],
   [9,1,2,3,4,5,6,7,8]  
 ];
-const sheme = [
+const shemeArray = [
   [1,2,3,4,5,6,7,8,9],
   [4,5,6,7,8,9,1,2,3],
   [7,8,9,1,2,3,4,5,6],
@@ -29,6 +30,7 @@ const sheme = [
   [6,7,8,9,1,2,3,4,5],
   [9,1,2,3,4,5,6,7,8]  
 ];
+
 
   
 
@@ -49,29 +51,29 @@ $field.addEventListener('keydown', ({target, keyCode}) => {
 //  input set in focus when mouseover(hover):
 $field.addEventListener('mouseover', ({target}) => {
   target.focus();
-});//  END of input set in focus when mouseover(hover)
+});//  END of input set in focus when mouseover(hover);
+
+// add event on button New Game:
+$newGameBtn.addEventListener('click', () => {  
+  clearBoard($field);
+  copyArray(boardArray, shemeArray);
+  newBoardArray(boardArray);
+  copyArray(copyArrayForRestart, boardArray);
+  createBoard(boardArray);
+});// END of add event on button New Game;
+
+// add event on button Restart:
+restartBtn.addEventListener('click', ()=> {
+  clearBoard($field);
+  copyArray(boardArray, copyArrayForRestart);
+  createBoard(boardArray);
+});// END of add event on button Restart:
+
+
+
 
 
 // --*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-||
-
-$newGameBtn.addEventListener('click', () => {
-  while($field.firstChild){
-    $field.removeChild($field.firstChild);
-  }
-  while(net.length){
-    net.pop();
-  }
-  
-  sheme.forEach(el => {
-    net.push(el);
-  });
-  console.log(net)
-  newGame(net);
-  createBoard(net);
-});
-
-
-
 
 $checkBtn.addEventListener('click', () => {
   const filledBoard = getBoard();
@@ -85,6 +87,31 @@ $checkBtn.addEventListener('click', () => {
 // --*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-||
 
 
+
+
+
+//  function copyArray(copyArr, originalArr) creates copy of array:
+const copyArray = (copyArray, originalArray) => {
+  let rowHelp = [];
+  while(copyArray.length){
+    copyArray.pop();
+  }
+  originalArray.forEach(row => {
+    row.forEach(el => {
+      rowHelp.push(el);
+    });
+    copyArray.push(rowHelp);
+    rowHelp = [];
+  });
+};//  END function copyArray(copyArr, originalArr);
+
+//  function clearBord($board) deletes all 
+//  children in $board:
+const clearBoard = $board => {
+  while($board.firstChild){
+    $board.removeChild($board.firstChild);
+  }
+};//  END of function clearBord($board);
 
 //  function checkSimpleArr(arr) checks whether 
 //  all the elements are unique in a simple array
@@ -355,68 +382,69 @@ const transportingBoard = array => {
   }
 };//  END of function transportingBoard(arr)
 
+//  function return random number 
+//  between min value and max value:
+const getRandomBetweenMinAndMax = (min, max) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};//  END of function getRandomBetweenMinAndMax(min, max);
 
-
-
-
-// let a = 
-// console.log(a);
-
-// transportingBoard(net);
-// rotateTripleColumns(net, 1,4)
-// rotateRows(net, 0, 3);
-// triple
-// rotateRows(net,6,7);
-// rotateColumns(net, 0, 2);
-
-
-const newGame = array => {
+//  function newBoardArray(arr) rotates array N times,
+//  where N is random number between 1 and 9;
+//  After that this function removes some
+//  squares on board. Amount of removed squares
+//  depends on difficulty:
+const newBoardArray = array => {
   const $difficutlyCont = document.getElementById('difficulty');
   const $difficutlyVal = $difficutlyCont.getElementsByTagName('input');
   let difficulty;
   let i,j;
-  const diffSheme = {
-    cells: 45,
-    emptyRC: 1
-  };
+  let randomCount;
+  randomCount = Math.floor((Math.random() * 9));
+  transportingBoard(array);  
+  while(randomCount >= 0){
+    i = getRandomBetweenMinAndMax(6, 8);
+    j = getRandomBetweenMinAndMax(6, 8);
+    rotateColumns(array, i, j);
+    rotateRows(array, i, j);
+    i = getRandomBetweenMinAndMax(3, 5);
+    j = getRandomBetweenMinAndMax(3, 5);
+    rotateColumns(array, i, j);
+    rotateRows(array, i, j);
+    i = getRandomBetweenMinAndMax(0, 2);
+    j = getRandomBetweenMinAndMax(0, 2);
+    rotateColumns(array, i, j);
+    rotateRows(array, i, j);
+    rotateBlockOfColumns(array, i, j);
+    rotateBlockOfRows(array, i, j);
+    randomCount--;
+  }
   for(let el of $difficutlyVal) {
     if(el.checked){
-      difficulty = el.value;
+      difficulty = parseInt(el.value);
     }
   }
   switch(difficulty) {
     case 0:
-      diffSheme.cells = 45;
-      diffSheme.emptyRC = 0;
+      difficulty = 55;      
       break;
     case 1:
-      diffSheme.cells = 55;
-      diffSheme.emptyRC = 1;
+      difficulty = 65;
       break;
     case 2:
-      diffSheme.cells = 60;
-      diffSheme.emptyRC = 2;
+      difficulty = 70;
+      break;
   }
-  for(let k = 0; k <= diffSheme.cells; k++){
-    i = Math.floor((Math.random() * 9));
-    j = Math.floor((Math.random() * 9));
+  for(let k = 0; k <= difficulty; k++){
+    i = getRandomBetweenMinAndMax(0, 8);
+    j = getRandomBetweenMinAndMax(0, 8);
     array[i][j] = 0;
-  }
-
-};
-
+  }  
+};//  END of function newBoardArray(arr)
 
 
-newGame(net);
-// transportingBoard(net);
-// rotateColumns(net, 1, 3);
-// rotateColumns(net, 4, 6);
-// rotateColumns(net, 7, 8);
-// rotateColumns(net, 4, 5);
-// rotateRows(net, 1, 3);
-// rotateRows(net, 4, 6);
-// rotateRows(net, 7, 8);
-// rotateRows(net, 4, 5);
-// rotateBlockOfColumns(net, 1, 3);
-// rotateBlockOfRows(net, 2, 3);
-createBoard(net);
+
+
+// newBoardArray(boardArray);
+// createBoard(boardArray);
