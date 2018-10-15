@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background: #ffe6f0;
+  background: #e6e6e6;
 }
 main {
   width: 100%;
@@ -48,14 +48,7 @@ main #field .cell:disabled {
   outline: none;
   text-shadow: 0 0 0 #2196f3;
 }
-main .controls {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  min-height: 100px;
-  width: 450px;
-}
-main .controls .ctrl-btn {
+main .ctrl-btn {
   border: 2px solid #000000;
   border-radius: 10px;
   background: #fff;
@@ -64,11 +57,27 @@ main .controls .ctrl-btn {
   padding: 14px 20px;
   font-size: 16px;
   cursor: pointer;
+  outline: none;
   transition: 0.3s ease-out;
 }
-main .controls .ctrl-btn:hover {
+main .ctrl-btn:hover {
   background: #2196F3;
   color: #fff;
+}
+main .next-prev-container {
+  width: 100px;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+main .controls {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 100px;
+  width: 450px;
 }
 main .controls .nwgm:hover,
 main .controls .rstrt:hover {
@@ -81,7 +90,7 @@ main #difficulty {
   flex-direction: column;
   justify-content: space-between;
 }
-main #difficulty .check-container {
+main #difficulty .radio-container {
   display: block;
   position: relative;
   padding-left: 35px;
@@ -89,12 +98,12 @@ main #difficulty .check-container {
   cursor: pointer;
   font-size: 18px;
 }
-main #difficulty .check-container input {
+main #difficulty .radio-container input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
 }
-main #difficulty .check-container .checkmark {
+main #difficulty .radio-container .checkmark {
   position: absolute;
   top: 0;
   left: 0;
@@ -103,21 +112,21 @@ main #difficulty .check-container .checkmark {
   background-color: #eee;
   border-radius: 50%;
 }
-main #difficulty .check-container .checkmark:after {
+main #difficulty .radio-container .checkmark:after {
   content: "";
   position: absolute;
   display: none;
 }
-main #difficulty .check-container:hover input ~ .checkmark {
+main #difficulty .radio-container:hover input ~ .checkmark {
   background-color: #ccc;
 }
-main #difficulty .check-container input:checked ~ .checkmark {
+main #difficulty .radio-container input:checked ~ .checkmark {
   background-color: #2196f3;
 }
-main #difficulty .check-container input:checked ~ .checkmark:after {
+main #difficulty .radio-container input:checked ~ .checkmark:after {
   display: block;
 }
-main #difficulty .check-container .checkmark:after {
+main #difficulty .radio-container .checkmark:after {
   left: 9px;
   top: 5px;
   width: 5px;
@@ -127,4 +136,64 @@ main #difficulty .check-container .checkmark:after {
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
+}
+main .message {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 200px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+}
+main .message .message-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #5cb85c;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #fff;
+  border-radius: 10px;
+  max-width: 500px;
+  height: 200px;
+  -webkit-animation-name: messageAnimate;
+  -webkit-animation-duration: 1s;
+  animation-name: messageAnimate;
+  animation-duration: 1s;
+}
+main .message .message-content h1 {
+  background: #fff;
+  margin: 0;
+  width: 100%;
+  padding: 20px 0 20px;
+  text-align: center;
+  font-family: sans-serif;
+}
+main .message .warning {
+  background: #ff0000;
+}
+@-webkit-keyframes messageAnimate {
+  from {
+    top: -400px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+@keyframes messageAnimate {
+  from {
+    top: -400px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
 }

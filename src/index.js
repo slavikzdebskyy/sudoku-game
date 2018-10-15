@@ -5,9 +5,10 @@
 const $field = document.getElementById('field');  //  div => game board
 const $checkBtn = document.getElementById('check-btn'); // button Check
 const $newGameBtn = document.getElementById('nwgm-btn'); // button New Game
+const $modalMssg = document.getElementById('check-msg');  //  div => modal window massage
+const $mssgText = document.getElementById('mssg-text'); //  h1 => message
 const restartBtn = document.getElementById('rstrt-btn');  //  button Restart
 const copyArrayForRestart =[];  //  copy boardArray if user want replay this puzzle
-
 const boardArray = [
   [1,2,3,4,5,6,7,8,9],
   [4,5,6,7,8,9,1,2,3],
@@ -30,10 +31,6 @@ const shemeArray = [
   [6,7,8,9,1,2,3,4,5],
   [9,1,2,3,4,5,6,7,8]  
 ];
-
-
-  
-
 
 //  input's validation (user can enter only numbers):
 $field.addEventListener('keydown', ({target, keyCode}) => { 
@@ -67,28 +64,30 @@ restartBtn.addEventListener('click', ()=> {
   clearBoard($field);
   copyArray(boardArray, copyArrayForRestart);
   createBoard(boardArray);
-});// END of add event on button Restart:
+});// END of add event on button Restart
 
+//  add event on modal message window (close this window):
+$modalMssg.addEventListener('click', () => {
+  const $content = $modalMssg.children[0];
+  if($content.classList.contains('warning')){
+    $content.classList.toggle('warning');
+  }
+  $modalMssg.style.display = 'none';  
+});//  END of add event on modal message window;
 
-
-
-
-// --*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-||
-
+//  add event on button Check:
 $checkBtn.addEventListener('click', () => {
   const filledBoard = getBoard();
+  const $mssgModal = $modalMssg.children[0];
   if(checkColumnsAndRows(filledBoard) && checkBlocks(filledBoard)){
-    console.log('Well done');
+    $mssgText.innerText = 'Congratulation !';
+    $modalMssg.style.display = 'block';
   } else {
-    console.error('Wrong !!!');
+    $mssgModal.classList.toggle('warning');
+    $mssgText.innerText = 'Incorrect !';
+    $modalMssg.style.display = 'block';
   }
-  // console.log(filledBoard);
-});
-// --*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-||
-
-
-
-
+});//  END of add event on button Check;
 
 //  function copyArray(copyArr, originalArr) creates copy of array:
 const copyArray = (copyArray, originalArray) => {
@@ -441,9 +440,7 @@ const newBoardArray = array => {
     j = getRandomBetweenMinAndMax(0, 8);
     array[i][j] = 0;
   }  
-};//  END of function newBoardArray(arr)
-
-
+};//  END of function newBoardArray(arr);
 
 
 // newBoardArray(boardArray);

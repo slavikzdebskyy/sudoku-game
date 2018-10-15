@@ -10,15 +10,15 @@
 <body>
   <main>
     <div id="difficulty">
-        <label class="check-container">Easy
+        <label class="radio-container">Easy
           <input type="radio" checked="checked" name="difficult" value="0">
           <span class="checkmark"></span>
         </label>
-        <label class="check-container">Medium
+        <label class="radio-container">Medium
           <input type="radio" name="difficult" value="1">
           <span class="checkmark"></span>
         </label>
-        <label class="check-container">Hard
+        <label class="radio-container">Hard
           <input type="radio" name="difficult" value="2">
           <span class="checkmark"></span>
         </label>
@@ -32,7 +32,15 @@
         <button id="rstrt-btn" class="ctrl-btn rstrt">Restart</button>        
       </div>
     </div>
-        
+    <!-- <div class="next-prev-container">
+      <button id="prev" class="ctrl-btn">Undo</button>
+      <button id="next" class="ctrl-btn">Redo</button>
+    </div> -->
+    <div id="check-msg" class="message">
+      <div class="message-content">     
+        <h1 id="mssg-text"></h1>        
+      </div>    
+    </div>  
   </main>
 </body>
 <script src="src/index.js"></script>

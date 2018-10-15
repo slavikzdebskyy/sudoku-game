@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background: #ffe6f0;
+  background: #e6e6e6;
 }
 
 main {
@@ -48,27 +48,36 @@ main {
       }
     }// .cell
   }// #field
-  .controls{
+  .ctrl-btn {
+    border: 2px solid #000000;
+    border-radius: 10px;
+    background: #fff;
+    border-color: #2196F3;
+    color: #2196F3;
+    padding: 14px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;
+    transition: .3s ease-out;
+    &:hover {
+      background: #2196F3;
+      color: #fff;
+    }      
+  }// .ctrl-btn
+  .next-prev-container {
+    width: 100px;
+    height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .controls {
     display: flex;
     justify-content: space-around;
     align-items: center;
     min-height: 100px;
-    width: 450px;
-    .ctrl-btn {
-      border: 2px solid #000000;
-      border-radius: 10px;
-      background: #fff;
-      border-color: #2196F3;
-      color: #2196F3;
-      padding: 14px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: .3s ease-out;
-      &:hover {
-        background: #2196F3;
-        color: #fff;
-      }      
-    }// .ctrl-btn
+    width: 450px;    
     .nwgm:hover,
     .rstrt:hover {
       color: red;
@@ -80,7 +89,7 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    .check-container {
+    .radio-container {
       display: block;
       position: relative;
       padding-left: 35px;
@@ -107,7 +116,7 @@ main {
         }// .checkmark  
       }// .checkmark
     }// .check-container
-    .check-container{
+    .radio-container{
       &:hover input ~ .checkmark {
         background-color: #ccc;
       }
@@ -130,4 +139,55 @@ main {
       }// .checkmark:after
     }// .check-container
   }// difficulty
+  .message {
+    display: none; 
+    position: fixed; 
+    z-index: 1;
+    padding-top: 200px;
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    background: rgba(0,0,0,0.7);
+    .message-content {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: #5cb85c;
+      margin: auto;
+      padding: 0;
+      border: 1px solid #fff;
+      border-radius: 10px;
+      max-width: 500px;
+      height: 200px;
+      -webkit-animation-name: messageAnimate;
+      -webkit-animation-duration: 1s;
+      animation-name: messageAnimate;
+      animation-duration: 1s;      
+      h1 {
+        background: #fff;
+        margin: 0;
+        width: 100%;
+        padding: 20px 0 20px;
+        text-align: center;
+        font-family: sans-serif;
+      }// h1      
+    }// .message-content 
+    .warning {
+      background: #ff0000;
+    }// warning   
+  }// .message
 }// main
+
+
+@-webkit-keyframes messageAnimate {
+  from {top:-400px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes messageAnimate {
+  from {top:-400px; opacity:0}
+  to {top:0; opacity:1}
+}
