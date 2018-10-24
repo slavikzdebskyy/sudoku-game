@@ -65,7 +65,10 @@ main {
   &:hover {
     background-color: #2196F3;
     color: #fff;
-  }      
+  }// .ctrl-btn:hover
+  &:disabled {
+    opacity: .5;
+  } // .ctrl-btn:disabled   
 }// .ctrl-btn
 
 .next-prev-container {
@@ -82,14 +85,14 @@ main {
   justify-content: space-around;
   align-items: center;
   min-height: 100px;
-  width: 450px;    
-  .nwgm:hover,
-  .rstrt:hover {
+  width: 450px;     
+  .new-game-btn:hover,
+  .restart-btn:hover {
     color: red;
   }// .nwgm:hover, .rstrt:hover
 }// .controls
 
-#difficulty {
+.difficulty-container {
   width: 130px;
   height: 150px;
   display: flex;

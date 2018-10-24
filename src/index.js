@@ -2,40 +2,74 @@
 
 
 class TurnsRegistrator {
-  constructor () {
-    this.stackTurns = [];
-    this.stackRedoTurns = [];
+  constructor ($board) {
+    this.undoStackTurns = [];
+    this.redoStackTurns = [];
     this.prevValue = 0;
+    this.$cells = $board.getElementsByTagName('input');
   }
 
-  addNewTurn (el) {
-    this.stackTurns.push(el);
+  addNewTurn (lastTurn) {
+    this.undoStackTurns.push(lastTurn);
   }
 
-  getLastTurn () {
-    return this.stackTurns[stackTurns.length - 1];
+  hasElementsInundoStackTurns () {
+    return Boolean(this.undoStackTurns.length);
   }
+
+  hasElementsInredoStackTurns () {
+    return Boolean(this.redoStackTurns.length);
+  }
+
+  clearRedoStackTurns () {
+    while (this.redoStackTurns.length) {
+      this.redoStackTurns.pop();
+    }
+  }
+
+  clearUndoStackTurns () {
+    while (this.undoStackTurns.length) {
+      this.undoStackTurns.pop();
+    }
+  }
+
+  undoTurn ()  { 
+    const lastIndex = this.undoStackTurns.length - 1;
+    const lastTurn = this.undoStackTurns[lastIndex];
+    const currentValue = this.$cells[lastTurn.cellIndex].value;
+
+    this.$cells[lastTurn.cellIndex].value = lastTurn.cellValue;
+    lastTurn.cellValue = currentValue;
+    this.redoStackTurns.push(lastTurn);
+    this.undoStackTurns.pop();
+  }
+
+  redoTurn ()  { 
+    const lastIndex = this.redoStackTurns.length - 1;
+    const lastTurn = this.redoStackTurns[lastIndex];
+    const currentValue = this.$cells[lastTurn.cellIndex].value;
+
+    this.$cells[lastTurn.cellIndex].value = lastTurn.cellValue;
+    lastTurn.cellValue = currentValue;
+    this.undoStackTurns.push(lastTurn);
+    this.redoStackTurns.pop();
+  }
+  
 }
 
 const $boardContainer = document.getElementById('board-container');
 const $modalWindow = document.getElementById('modal-check-window');
 
 const $checkBtn = document.getElementById('check-btn'); 
-const $newGameBtn = document.getElementById('nwgm-btn');
-const $restartBtn = document.getElementById('rstrt-btn'); 
+const $newGameBtn = document.getElementById('new-game-btn');
+const $restartBtn = document.getElementById('restart-btn'); 
 const $undoOrRedoBtns = document.getElementById('undo-redo-btns');
 
-const turnsRegistrator = new TurnsRegistrator();
+const turnsRegistrator = new TurnsRegistrator($boardContainer);
 
-// console.log(turnsRegistrator);
-const stackTurns = [];
-const stackRedoTurns = [];
-let prevValue;
-
-
-const copyArrayForRestart = [];                            // copy boardArray if user want replay this puzzle
-const boardArray = [];                                     // renderer array on board
-const shemeArray = [                                       // sheme array for create new boardArray
+const copyArrayForRestart = [];         
+const boardArray = [];                            
+const shemeArray = [                              
   [1,2,3,4,5,6,7,8,9],
   [4,5,6,7,8,9,1,2,3],
   [7,8,9,1,2,3,4,5,6],
@@ -47,15 +81,8 @@ const shemeArray = [                                       // sheme array for cr
   [9,1,2,3,4,5,6,7,8]  
 ];
 
-
-
-
-
-
-//  input's validation (user can enter only numbers)
-//  and set prevVlue:
 $boardContainer.addEventListener('keydown', ({target, keyCode}) => {
-  prevValue = target.value;
+  turnsRegistrator.prevValue = target.value;
   target.onkeypress = () => {
     if (!(keyCode >= 49 && keyCode <= 57)){
       return false;
@@ -65,18 +92,30 @@ $boardContainer.addEventListener('keydown', ({target, keyCode}) => {
     }    
     return true;    
   };
-});// END of input's validation
+});
 
 $undoOrRedoBtns.addEventListener('click', ({target}) => {
-  undoOrRedoLastTurn(stackTurns, stackRedoTurns, target.innerText);
+  switch (target.innerText) {
+    case 'Undo':
+      turnsRegistrator.undoTurn();
+      break;
+    case 'Redo':
+      turnsRegistrator.redoTurn();
+      break;
+  }
 });
 
 // when user entered some number in cell - this turn will
 // push to stackArr:
 $boardContainer.addEventListener('change', ({target}) => {
   const cellIndex = parseInt(target.getAttribute('data-index'));
-  if (target.value !== '' && prevValue !== 0){
-    addTurnToStackArray(cellIndex, prevValue);
+  if (target.value !== '' && turnsRegistrator.prevValue !== 0){   
+    const turn = {
+      cellIndex: cellIndex,
+      cellValue: turnsRegistrator.prevValue
+    };
+    turnsRegistrator.addNewTurn(turn);
+    turnsRegistrator.clearRedoStackTurns();
   }
 });// END onchange event;
 
@@ -92,6 +131,8 @@ $newGameBtn.addEventListener('click', () => {
   newBoardArray(boardArray);
   copyArray(copyArrayForRestart, boardArray);
   createBoard(boardArray);
+  turnsRegistrator.clearRedoStackTurns();
+  turnsRegistrator.clearUndoStackTurns();
 });// END of add event on button New Game;
 
 // add event on button Restart:
@@ -99,16 +140,9 @@ $restartBtn.addEventListener('click', ()=> {
   clearBoard($boardContainer);
   copyArray(boardArray, copyArrayForRestart);
   createBoard(boardArray);
+  turnsRegistrator.clearRedoStackTurns();
+  turnsRegistrator.clearUndoStackTurns();
 });// END of add event on button Restart
-
-//  add event on modal message window (close this window):
-$modalWindow.addEventListener('click', () => {
-  const $content = $modalWindow.children[0];
-  if ($content.classList.contains('warning')){
-    $content.classList.toggle('warning');
-  }
-  $modalWindow.classList.toggle('active');  
-});//  END of add event on modal message window;
 
 //  add event on button Check:
 $checkBtn.addEventListener('click', () => {
@@ -123,6 +157,15 @@ $checkBtn.addEventListener('click', () => {
     $mssgText.innerText = 'Incorrect !';    
   }
 });//  END of add event on button Check;
+
+//  add event on modal message window (close this window):
+$modalWindow.addEventListener('click', () => {
+  const $content = $modalWindow.children[0];
+  if ($content.classList.contains('warning')){
+    $content.classList.toggle('warning');
+  }
+  $modalWindow.classList.toggle('active');  
+});//  END of add event on modal message window;
 
 //  function copyArray(copyArr, originalArr) creates copy of array:
 const copyArray = (copyArray, originalArray) => {
@@ -477,54 +520,3 @@ const newBoardArray = array => {
   }  
 };//  END of function newBoardArray(arr);
 
-// function addTurnToStackArray(koordSrt, val) pushing 
-//  koordinate and value cell in steckOfTurns: 
-const addTurnToStackArray = (cellIndex, cellValue) => {  
-  const turn = {
-    cellIndex: cellIndex,
-    cellValue: cellValue
-  };
-  stackTurns.push(turn);
-};// END of function addTurnToStackArray(koordSrt, val);
-
-
-const undoOrRedoLastTurn = (stackTurns, backupStack, undoOrRedo) => {
-  const sTLen = stackTurns.length;
-  const bSLen = backupStack.length;
-  const $inputs = $boardContainer.getElementsByTagName('input');
-  
-  const prev = (sTLen) ? stackTurns[sTLen - 1] : 0;
-  const currentPrevVavue = (sTLen) ? $inputs[prev.cellIndex].value : 0;
-  const next = (bSLen) ? backupStack[bSLen - 1] : 0;  
-  const currentNextValue = (bSLen) ? $inputs[next.cellIndex].value : 0;
-  
-  switch (undoOrRedo){
-    case 'Undo':        
-      $inputs[prev.cellIndex].value = prev.cellValue;
-      prev.cellValue = currentPrevVavue;
-      backupStack.push(prev);
-      stackTurns.pop();
-      break;
-    case 'Redo':      
-      $inputs[next.cellIndex].value = next.cellValue;
-      next.cellValue = currentNextValue;
-      stackTurns.push(next);
-      backupStack.pop();
-      break;
-    default:
-      return;
-  }
-};
-
-
-
-
-
-
-
-
-
-
-
-// newBoardArray(boardArray);
-// createBoard(boardArray);
