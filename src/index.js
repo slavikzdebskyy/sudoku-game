@@ -74,8 +74,9 @@ $undoOrRedoBtns.addEventListener('click', ({target}) => {
 // when user entered some number in cell - this turn will
 // push to stackArr:
 $boardContainer.addEventListener('change', ({target}) => {
+  const cellIndex = parseInt(target.getAttribute('data-index'));
   if (target.value !== '' && prevValue !== 0){
-    addTurnToStackArray(target.name, prevValue);
+    addTurnToStackArray(cellIndex, prevValue);
   }
 });// END onchange event;
 
@@ -222,9 +223,9 @@ const checkBlocks = array => {
 //  and rendered start board:
 const createBoard = array => {
   array.forEach((row, indexRow) => {
-    row.forEach((elInRow, indexInRow) => {
+    row.forEach((elInRow, indeColunm) => {
       const input = document.createElement('input');
-      input.name = indexRow + ',' + indexInRow;
+      input.setAttribute('data-index', indexRow * 9 + indeColunm);
       if (indexRow === 2 || indexRow === 5){
         input.className = 'cell border-bottom';
       } else {
@@ -478,14 +479,10 @@ const newBoardArray = array => {
 
 // function addTurnToStackArray(koordSrt, val) pushing 
 //  koordinate and value cell in steckOfTurns: 
-const addTurnToStackArray = (koordStr, value) => {
-  const koord = koordStr.split(',').map(el => {
-    return parseInt(el);
-  });
+const addTurnToStackArray = (cellIndex, cellValue) => {  
   const turn = {
-    row: koord[0],
-    col: koord[1],
-    value: value
+    cellIndex: cellIndex,
+    cellValue: cellValue
   };
   stackTurns.push(turn);
 };// END of function addTurnToStackArray(koordSrt, val);
@@ -497,22 +494,20 @@ const undoOrRedoLastTurn = (stackTurns, backupStack, undoOrRedo) => {
   const $inputs = $boardContainer.getElementsByTagName('input');
   
   const prev = (sTLen) ? stackTurns[sTLen - 1] : 0;
-  const indexOfPrevImput = (sTLen) ? prev.row * 9 + prev.col : 0;
-  const currentPrevVavue = (sTLen) ? $inputs[indexOfPrevImput].value : 0;
-  const next = (bSLen) ? backupStack[bSLen - 1] : 0;
-  const indexOfNextImput = (bSLen) ? next.row * 9 + next.col : 0;
-  const currentNextValue = (bSLen) ? $inputs[indexOfNextImput].value : 0;
-
+  const currentPrevVavue = (sTLen) ? $inputs[prev.cellIndex].value : 0;
+  const next = (bSLen) ? backupStack[bSLen - 1] : 0;  
+  const currentNextValue = (bSLen) ? $inputs[next.cellIndex].value : 0;
+  
   switch (undoOrRedo){
     case 'Undo':        
-      $inputs[indexOfPrevImput].value = prev.value;
-      prev.value = currentPrevVavue;
+      $inputs[prev.cellIndex].value = prev.cellValue;
+      prev.cellValue = currentPrevVavue;
       backupStack.push(prev);
       stackTurns.pop();
       break;
     case 'Redo':      
-      $inputs[indexOfNextImput].value = next.value;
-      next.value = currentNextValue;
+      $inputs[next.cellIndex].value = next.cellValue;
+      next.cellValue = currentNextValue;
       stackTurns.push(next);
       backupStack.pop();
       break;
