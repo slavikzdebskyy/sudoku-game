@@ -1,26 +1,18 @@
-
-
 'use strict';
 
-const $field = document.getElementById('field');  //  div => game board
-const $checkBtn = document.getElementById('check-btn'); // button Check
-const $newGameBtn = document.getElementById('nwgm-btn'); // button New Game
-const $modalMssg = document.getElementById('check-msg');  //  div => modal window massage
-const $mssgText = document.getElementById('mssg-text'); //  h1 => message
-const restartBtn = document.getElementById('rstrt-btn');  //  button Restart
-const copyArrayForRestart =[];  //  copy boardArray if user want replay this puzzle
-const boardArray = [
-  [1,2,3,4,5,6,7,8,9],
-  [4,5,6,7,8,9,1,2,3],
-  [7,8,9,1,2,3,4,5,6],
-  [2,3,4,5,6,7,8,9,1],
-  [5,6,7,8,9,1,2,3,4],
-  [8,9,1,2,3,4,5,6,7],
-  [3,4,5,6,7,8,9,1,2],
-  [6,7,8,9,1,2,3,4,5],
-  [9,1,2,3,4,5,6,7,8]  
-];
-const shemeArray = [
+const $field = document.getElementById('field');           // div => game board
+const $checkBtn = document.getElementById('check-btn');    // button Check
+const $newGameBtn = document.getElementById('nwgm-btn');   // button New Game
+const $modalMssg = document.getElementById('check-msg');   // div => modal window massage
+const $mssgText = document.getElementById('mssg-text');    // h1 => message
+const $restartBtn = document.getElementById('rstrt-btn');  // button Restart
+const $undoOrRedoBtns = document.getElementById('undo-redo-btns');
+const stackOfTurns = [];                                   // Array where saved all turns
+const prevTurns = [];                                      // Array of previeus turns
+let prevValue;                                             // Cell's value before onfocus 
+const copyArrayForRestart = [];                            // copy boardArray if user want replay this puzzle
+const boardArray = [];                                     // renderer array on board
+const shemeArray = [                                       // sheme array for create new boardArray
   [1,2,3,4,5,6,7,8,9],
   [4,5,6,7,8,9,1,2,3],
   [7,8,9,1,2,3,4,5,6],
@@ -32,22 +24,36 @@ const shemeArray = [
   [9,1,2,3,4,5,6,7,8]  
 ];
 
-//  input's validation (user can enter only numbers):
-$field.addEventListener('keydown', ({target, keyCode}) => { 
+//  input's validation (user can enter only numbers)
+//  and set prevVlue:
+$field.addEventListener('keydown', ({target, keyCode}) => {
+  prevValue = target.value;
   target.onkeypress = () => {
-    if(!(keyCode >= 49 && keyCode <= 57)){
+    if (!(keyCode >= 49 && keyCode <= 57)){
       return false;
     }
-    if(event.target.value.length >= 1){
+    if (event.target.value.length >= 1){
       return false;
-    }
+    }    
     return true;    
   };
 });// END of input's validation
 
+$undoOrRedoBtns.addEventListener('click', ({target}) => {
+  undoOrRedoLastTurn(stackOfTurns, prevTurns, target.innerText);
+});
+
+// when user entered some number in cell - this turn will
+// push to stackArr:
+$field.addEventListener('change', ({target}) => {
+  if (target.value !== '' && prevValue !== 0){
+    addTurnToStackArray(target.name, prevValue);
+  }
+});// END onchange event;
+
 //  input set in focus when mouseover(hover):
 $field.addEventListener('mouseover', ({target}) => {
-  target.focus();
+  target.focus();   
 });//  END of input set in focus when mouseover(hover);
 
 // add event on button New Game:
@@ -60,7 +66,7 @@ $newGameBtn.addEventListener('click', () => {
 });// END of add event on button New Game;
 
 // add event on button Restart:
-restartBtn.addEventListener('click', ()=> {
+$restartBtn.addEventListener('click', ()=> {
   clearBoard($field);
   copyArray(boardArray, copyArrayForRestart);
   createBoard(boardArray);
@@ -69,7 +75,7 @@ restartBtn.addEventListener('click', ()=> {
 //  add event on modal message window (close this window):
 $modalMssg.addEventListener('click', () => {
   const $content = $modalMssg.children[0];
-  if($content.classList.contains('warning')){
+  if ($content.classList.contains('warning')){
     $content.classList.toggle('warning');
   }
   $modalMssg.style.display = 'none';  
@@ -79,7 +85,7 @@ $modalMssg.addEventListener('click', () => {
 $checkBtn.addEventListener('click', () => {
   const filledBoard = getBoard();
   const $mssgModal = $modalMssg.children[0];
-  if(checkColumnsAndRows(filledBoard) && checkBlocks(filledBoard)){
+  if (checkColumnsAndRows(filledBoard) && checkBlocks(filledBoard)){
     $mssgText.innerText = 'Congratulation !';
     $modalMssg.style.display = 'block';
   } else {
@@ -92,7 +98,7 @@ $checkBtn.addEventListener('click', () => {
 //  function copyArray(copyArr, originalArr) creates copy of array:
 const copyArray = (copyArray, originalArray) => {
   let rowHelp = [];
-  while(copyArray.length){
+  while (copyArray.length){
     copyArray.pop();
   }
   originalArray.forEach(row => {
@@ -107,7 +113,7 @@ const copyArray = (copyArray, originalArray) => {
 //  function clearBord($board) deletes all 
 //  children in $board:
 const clearBoard = $board => {
-  while($board.firstChild){
+  while ($board.firstChild){
     $board.removeChild($board.firstChild);
   }
 };//  END of function clearBord($board);
@@ -119,7 +125,7 @@ const clearBoard = $board => {
 const checkSimpleArr = array => { 
   let check = true;
   array.forEach((el, index) => {
-    if(array.slice(index + 1, array.length).includes(el)){
+    if (array.slice(index + 1, array.length).includes(el)){
       check = false;
     }    
   });
@@ -137,15 +143,15 @@ const checkColumnsAndRows = array => {
   let check = true;
   const len = array.length;
   array.forEach(el => {
-    if(!checkSimpleArr(el)){
+    if (!checkSimpleArr(el)){
       check = false;
     }
   });
-  while(j < len){    
+  while (j < len){    
     column = array.map(el=>{
       return el[j];
     });     
-    if(!checkSimpleArr(column)){      
+    if (!checkSimpleArr(column)){      
       check = false;
     }
     j++;    
@@ -166,14 +172,14 @@ const checkBlocks = array => {
     block1 = block1.concat(el.slice(0,3));
     block2 = block2.concat(el.slice(3,6));
     block3 = block3.concat(el.slice(6,9));
-    if(block1.length === 9){
-      if(!checkSimpleArr(block1)) {
+    if (block1.length === 9){
+      if (!checkSimpleArr(block1)) {
         check = false;
       }
-      if(!checkSimpleArr(block2)) {
+      if (!checkSimpleArr(block2)) {
         check = false;
       }
-      if(!checkSimpleArr(block3)) {
+      if (!checkSimpleArr(block3)) {
         check = false;
       }      
       block1 = [];
@@ -187,17 +193,18 @@ const checkBlocks = array => {
 //  function createBoard(arr) creates HTML tags
 //  and rendered start board:
 const createBoard = array => {
-  array.forEach((el, index) => {
-    el.forEach(elChild => {
+  array.forEach((row, indexRow) => {
+    row.forEach((elInRow, indexInRow) => {
       const input = document.createElement('input');
-      if(index === 2 || index === 5){
-        input.className = 'cell brdr-bttm';
+      input.name = indexRow + ',' + indexInRow;
+      if (indexRow === 2 || indexRow === 5){
+        input.className = 'cell border-bottom';
       } else {
         input.className = 'cell';
       }
-      if(elChild){
+      if (elInRow){
         input.disabled = true;
-        input.value = elChild;
+        input.value = elInRow;
       }
       $field.appendChild(input);
     });
@@ -210,10 +217,10 @@ const getBoard = () => {
   const $cells = $field.getElementsByClassName('cell');
   const len = $cells.length;
   const board = [];
-  let row =[];  
+  let row = [];  
   let koef = 1;
-  for(let i = 0; i < len; i++){
-    if((9 * koef) > i){
+  for (let i = 0; i < len; i++){
+    if ((9 * koef) > i){
       row.push($cells[i].value);      
     } else {
       board.push(row);
@@ -228,14 +235,13 @@ const getBoard = () => {
 
 //  function rotateRows(arr, firstIndex, secondIndex) rotates 2 rows
 const rotateRows = (array, firstIndex, secondIndex) => {   
-  if((firstIndex >= 0 && secondIndex <=2) ||
-    (firstIndex >= 3 && secondIndex <=5) ||
-    (firstIndex >= 6 && secondIndex <=8)){
+  if ((firstIndex >= 0 && secondIndex <= 2) ||
+    (firstIndex >= 3 && secondIndex <= 5) ||
+    (firstIndex >= 6 && secondIndex <= 8)){
     const el = array[firstIndex]; 
     array.splice(firstIndex, 1, array[secondIndex]);
     array.splice(secondIndex, 1, el);
-  }
-  else {
+  } else {
     return;
   }
 };//  END of function rotateRows(arr, firstIndex, secondIndex)
@@ -243,16 +249,15 @@ const rotateRows = (array, firstIndex, secondIndex) => {
 //  function rotateColumns(arr, firstIndex, secondIndex) rotates 2 columns
 const rotateColumns = (array, firstIndex, secondIndex) => {
   let helpElem;
-  if( (firstIndex >= 0 && secondIndex <=2) ||
-      (firstIndex >= 3 && secondIndex <=5) ||
-      (firstIndex >= 6 && secondIndex <=8)    ){
+  if ( (firstIndex >= 0 && secondIndex <= 2) ||
+      (firstIndex >= 3 && secondIndex <= 5) ||
+      (firstIndex >= 6 && secondIndex <= 8)    ){
     array.forEach(el => {
       helpElem = el[firstIndex];
       el[firstIndex] = el[secondIndex];
       el[secondIndex] = helpElem;
     });
-  }
-  else {
+  } else {
     return;
   }
 };// END function rotateColumns(arr, firstIndex, secondIndex)
@@ -260,13 +265,13 @@ const rotateColumns = (array, firstIndex, secondIndex) => {
 //  function rotateBlockOfRows(arr, firstBlock, secondBlock) 
 //  rotates 2 blocks(1 block contains 3 rows):
 const rotateBlockOfRows = (array, firstBlock, secondBlock) => {
-  if( (firstBlock < 1) || (firstBlock > 3) ||
+  if ( (firstBlock < 1) || (firstBlock > 3) ||
       (secondBlock < 1) || (secondBlock > 3) ||
       (firstBlock === secondBlock)) {        
     return;
   }
   let helpRow;
-  if( ((firstBlock === 1) && (secondBlock === 2)) ||
+  if ( ((firstBlock === 1) && (secondBlock === 2)) ||
       ((firstBlock === 2) && (secondBlock === 1))) { 
     helpRow = array[0]; 
     array.splice(0, 1, array[3]);
@@ -278,7 +283,7 @@ const rotateBlockOfRows = (array, firstBlock, secondBlock) => {
     array.splice(2, 1, array[5]);
     array.splice(5, 1, helpRow);
   } else {
-    if( ((firstBlock === 1) && (secondBlock === 3)) ||
+    if ( ((firstBlock === 1) && (secondBlock === 3)) ||
         ((firstBlock === 3) && (secondBlock === 1))) {
       helpRow = array[0]; 
       array.splice(0, 1, array[6]);
@@ -290,7 +295,7 @@ const rotateBlockOfRows = (array, firstBlock, secondBlock) => {
       array.splice(2, 1, array[8]);
       array.splice(8, 1, helpRow);
     } else {
-      if( ((firstBlock === 2) && (secondBlock === 3)) ||
+      if ( ((firstBlock === 2) && (secondBlock === 3)) ||
           ((firstBlock === 3) && (secondBlock === 2))) {
         helpRow = array[3]; 
         array.splice(3, 1, array[6]);
@@ -309,13 +314,13 @@ const rotateBlockOfRows = (array, firstBlock, secondBlock) => {
 //  function rotateBlockOfColumns(arr, firstBlock, secondBlock) 
 //  rotates 2 blocks(1 block contains 3 columns):
 const rotateBlockOfColumns = (array, firstBlock, secondBlock) => {
-  if( (firstBlock < 1) || (firstBlock > 3) ||
+  if ( (firstBlock < 1) || (firstBlock > 3) ||
       (secondBlock < 1) || (secondBlock > 3) ||
       (firstBlock === secondBlock)) {        
     return;
   }
   let helpElem;
-  if( ((firstBlock === 1) && (secondBlock === 2)) ||
+  if ( ((firstBlock === 1) && (secondBlock === 2)) ||
       ((firstBlock === 2) && (secondBlock === 1))) {
     array.forEach(el => {
       helpElem = el[0];
@@ -329,7 +334,7 @@ const rotateBlockOfColumns = (array, firstBlock, secondBlock) => {
       el[5] = helpElem;
     });
   } else {
-    if( ((firstBlock === 1) && (secondBlock === 3)) ||
+    if ( ((firstBlock === 1) && (secondBlock === 3)) ||
         ((firstBlock === 3) && (secondBlock === 1))) {
       array.forEach(el => {
         helpElem = el[0];
@@ -343,7 +348,7 @@ const rotateBlockOfColumns = (array, firstBlock, secondBlock) => {
         el[8] = helpElem;
       });
     } else {
-      if( ((firstBlock === 2) && (secondBlock === 3)) ||
+      if ( ((firstBlock === 2) && (secondBlock === 3)) ||
           ((firstBlock === 3) && (secondBlock === 2))){
         array.forEach(el => {
           helpElem = el[3];
@@ -369,11 +374,11 @@ const transportingBoard = array => {
   const copyArr = array.slice(0, array.length);
   const len = array.length;
   let row = [];
-  while(array.length){
+  while (array.length){
     array.pop();
   }
-  for(let i = 0; i < len; i++){
-    for(let j = 0; j < len; j++){
+  for (let i = 0; i < len; i++){
+    for (let j = 0; j < len; j++){
       row.push(copyArr[j][i]);
     }
     array.push(row);
@@ -398,11 +403,12 @@ const newBoardArray = array => {
   const $difficutlyCont = document.getElementById('difficulty');
   const $difficutlyVal = $difficutlyCont.getElementsByTagName('input');
   let difficulty;
-  let i,j;
+  let i;
+  let j;
   let randomCount;
   randomCount = Math.floor((Math.random() * 9));
   transportingBoard(array);  
-  while(randomCount >= 0){
+  while (randomCount >= 0){
     i = getRandomBetweenMinAndMax(6, 8);
     j = getRandomBetweenMinAndMax(6, 8);
     rotateColumns(array, i, j);
@@ -419,12 +425,12 @@ const newBoardArray = array => {
     rotateBlockOfRows(array, i, j);
     randomCount--;
   }
-  for(let el of $difficutlyVal) {
-    if(el.checked){
+  for (const el of $difficutlyVal) {
+    if (el.checked){
       difficulty = parseInt(el.value);
     }
   }
-  switch(difficulty) {
+  switch (difficulty) {
     case 0:
       difficulty = 55;      
       break;
@@ -435,12 +441,66 @@ const newBoardArray = array => {
       difficulty = 70;
       break;
   }
-  for(let k = 0; k <= difficulty; k++){
+  for (let k = 0; k <= difficulty; k++){
     i = getRandomBetweenMinAndMax(0, 8);
     j = getRandomBetweenMinAndMax(0, 8);
     array[i][j] = 0;
   }  
 };//  END of function newBoardArray(arr);
+
+// function addTurnToStackArray(koordSrt, val) pushing 
+//  koordinate and value cell in steckOfTurns: 
+const addTurnToStackArray = (koordStr, value) => {
+  const koord = koordStr.split(',').map(el => {
+    return parseInt(el);
+  });
+  const turn = {
+    row: koord[0],
+    col: koord[1],
+    value: value
+  };
+  stackOfTurns.push(turn);
+};// END of function addTurnToStackArray(koordSrt, val);
+
+
+const undoOrRedoLastTurn = (stackTurns, backupStack, undoOrRedo) => {
+  const sTLen = stackTurns.length;
+  const bSLen = backupStack.length;
+  const $inputs = $field.getElementsByTagName('input');
+  
+  const prev = (sTLen) ? stackTurns[sTLen - 1] : 0;
+  const indexOfPrevImput = (sTLen) ? prev.row * 9 + prev.col : 0;
+  const currentPrevVavue = (sTLen) ? $inputs[indexOfPrevImput].value : 0;
+  const next = (bSLen) ? backupStack[bSLen - 1] : 0;
+  const indexOfNextImput = (bSLen) ? next.row * 9 + next.col : 0;
+  const currentNextValue = (bSLen) ? $inputs[indexOfNextImput].value : 0;
+
+  switch (undoOrRedo){
+    case 'Undo':        
+      $inputs[indexOfPrevImput].value = prev.value;
+      prev.value = currentPrevVavue;
+      backupStack.push(prev);
+      stackTurns.pop();
+      break;
+    case 'Redo':      
+      $inputs[indexOfNextImput].value = next.value;
+      next.value = currentNextValue;
+      stackTurns.push(next);
+      backupStack.pop();
+      break;
+    default:
+      return;
+  }
+};
+
+
+
+
+
+
+
+
+
 
 
 // newBoardArray(boardArray);

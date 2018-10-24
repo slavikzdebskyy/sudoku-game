@@ -1,31 +1,45 @@
 body {
   margin: 0;
-  background: #e6e6e6;
+  background-color: #e6e6e6;
 }
+
 main {
   width: 100%;
   height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
-main #field {
+
+#field {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   width: 450px;
   height: 450px;
   border: 3px solid #663300;
   border-right: 1px solid #663300;
   border-radius: 5px;
 }
-main #field .cell {
+
+#field .cell {
   outline: none;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   width: 50px;
   height: 50px;
   border: 1px solid #000000;
-  background: #e6e6e6;
+  background-color: #e6e6e6;
   color: transparent;
   text-shadow: 0 0 0 #2196f3;
   cursor: none;
@@ -33,64 +47,96 @@ main #field .cell {
   font-weight: bold;
   text-align: center;
 }
-main #field .cell:nth-of-type(3n) {
+
+#field .cell:nth-of-type(3n) {
   border-right: 3px solid #663300;
 }
-main #field .cell.brdr-bttm {
+
+#field .cell.border-bottom {
   border-bottom: 3px solid #663300;
 }
-main #field .cell:hover {
+
+#field .cell:hover {
   border: 3px solid #248f8f;
   border-radius: 5px;
 }
-main #field .cell:disabled {
-  background: #cccccc;
+
+#field .cell:disabled {
+  background-color: #cccccc;
   outline: none;
   text-shadow: 0 0 0 #2196f3;
 }
-main .ctrl-btn {
+
+.ctrl-btn {
   border: 2px solid #000000;
   border-radius: 10px;
-  background: #fff;
+  background-color: #fff;
   border-color: #2196F3;
   color: #2196F3;
   padding: 14px 20px;
   font-size: 16px;
   cursor: pointer;
   outline: none;
-  transition: 0.3s ease-out;
+  -webkit-transition: .3s ease-out;
+  transition: .3s ease-out;
 }
-main .ctrl-btn:hover {
-  background: #2196F3;
+
+.ctrl-btn:hover {
+  background-color: #2196F3;
   color: #fff;
 }
-main .next-prev-container {
+
+.next-prev-container {
   width: 100px;
   height: 220px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
-main .controls {
+
+.controls {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-around;
-  align-items: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   min-height: 100px;
   width: 450px;
 }
-main .controls .nwgm:hover,
-main .controls .rstrt:hover {
+
+.controls .nwgm:hover,
+.controls .rstrt:hover {
   color: red;
 }
-main #difficulty {
+
+#difficulty {
   width: 130px;
   height: 150px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
-main #difficulty .radio-container {
+
+#difficulty .radio-container {
   display: block;
   position: relative;
   padding-left: 35px;
@@ -98,12 +144,14 @@ main #difficulty .radio-container {
   cursor: pointer;
   font-size: 18px;
 }
-main #difficulty .radio-container input {
+
+#difficulty .radio-container input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
 }
-main #difficulty .radio-container .checkmark {
+
+#difficulty .radio-container .checkmark {
   position: absolute;
   top: 0;
   left: 0;
@@ -112,21 +160,26 @@ main #difficulty .radio-container .checkmark {
   background-color: #eee;
   border-radius: 50%;
 }
-main #difficulty .radio-container .checkmark:after {
+
+#difficulty .radio-container .checkmark:after {
   content: "";
   position: absolute;
   display: none;
 }
-main #difficulty .radio-container:hover input ~ .checkmark {
+
+#difficulty .radio-container:hover input ~ .checkmark {
   background-color: #ccc;
 }
-main #difficulty .radio-container input:checked ~ .checkmark {
+
+#difficulty .radio-container input:checked ~ .checkmark {
   background-color: #2196f3;
 }
-main #difficulty .radio-container input:checked ~ .checkmark:after {
+
+#difficulty .radio-container input:checked ~ .checkmark:after {
   display: block;
 }
-main #difficulty .radio-container .checkmark:after {
+
+#difficulty .radio-container .checkmark:after {
   left: 9px;
   top: 5px;
   width: 5px;
@@ -134,10 +187,10 @@ main #difficulty .radio-container .checkmark:after {
   border: solid white;
   border-width: 0 3px 3px 0;
   -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
-main .message {
+
+.message {
   display: none;
   position: fixed;
   z-index: 1;
@@ -146,15 +199,25 @@ main .message {
   top: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.7);
 }
-main .message .message-content {
+
+.message .message-content {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: #5cb85c;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #5cb85c;
   margin: auto;
   padding: 0;
   border: 1px solid #fff;
@@ -166,17 +229,20 @@ main .message .message-content {
   animation-name: messageAnimate;
   animation-duration: 1s;
 }
-main .message .message-content h1 {
-  background: #fff;
+
+.message .message-content h1 {
+  background-color: #fff;
   margin: 0;
   width: 100%;
   padding: 20px 0 20px;
   text-align: center;
   font-family: sans-serif;
 }
-main .message .warning {
-  background: #ff0000;
+
+.message .warning {
+  background-color: #ff0000;
 }
+
 @-webkit-keyframes messageAnimate {
   from {
     top: -400px;
@@ -187,6 +253,7 @@ main .message .warning {
     opacity: 1;
   }
 }
+
 @keyframes messageAnimate {
   from {
     top: -400px;
@@ -197,3 +264,4 @@ main .message .warning {
     opacity: 1;
   }
 }
+/*# sourceMappingURL=style.css.map */

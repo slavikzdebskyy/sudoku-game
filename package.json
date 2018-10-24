@@ -11,20 +11,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/slavikzdebskyy/sudoku-game"
+    "url": ""
   },
   "author": "Zdebskyy Yaroslav",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/slavikzdebskyy/sudoku-game/issues"
+    "url": "https://github.com/slavikzdebskyy/sudoku-game"
   },
-  "homepage": "https://github.com/slavikzdebskyy/sudoku-game#readme",
+  "homepage": "https://github.com/slavikzdebskyy/sudoku-game",
   "devDependencies": {
     "browser-sync": "^2.26.0",
     "eslint": "^5.6.1",
+    "eslint-plugin-jest": "^21.25.1",
     "eslint-watch": "^4.0.2",
-    "less": "^3.8.1",
-    "less-watch-compiler": "^1.11.3",
     "stylelint": "^9.6.0",
     "stylelint-config-standard": "^18.2.0"
   }

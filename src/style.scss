@@ -1,0 +1,200 @@
+body {
+  margin: 0;
+  background-color: #e6e6e6;
+}
+
+main {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}// main
+
+#field {
+  display: flex;
+  flex-wrap: wrap;
+  width: 450px;
+  height: 450px;
+  border: 3px solid #663300;
+  border-right: 1px solid #663300;
+  border-radius: 5px;
+  .cell {
+    outline: none;
+    box-sizing: border-box;
+    width: 50px;
+    height: 50px;
+    border: 1px solid #000000;
+    background-color: #e6e6e6;
+    color: transparent;
+    text-shadow: 0 0 0 #2196f3;
+    cursor: none;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    &:nth-of-type(3n){
+      border-right: 3px solid #663300;
+    }
+    &.border-bottom {
+      border-bottom: 3px solid #663300;
+    }
+    &:hover {
+      border: 3px solid #248f8f;
+      border-radius: 5px;
+    }
+    &:disabled {
+      background-color: #cccccc;
+      outline: none;    
+      text-shadow: 0 0 0 #2196f3;   
+    }
+  }// .cell
+}// #field
+
+.ctrl-btn {
+  border: 2px solid #000000;
+  border-radius: 10px;
+  background-color: #fff;
+  border-color: #2196F3;
+  color: #2196F3;
+  padding: 14px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  outline: none;
+  transition: .3s ease-out;
+  &:hover {
+    background-color: #2196F3;
+    color: #fff;
+  }      
+}// .ctrl-btn
+
+.next-prev-container {
+  width: 100px;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 100px;
+  width: 450px;    
+  .nwgm:hover,
+  .rstrt:hover {
+    color: red;
+  }// .nwgm:hover, .rstrt:hover
+}// .controls
+
+#difficulty {
+  width: 130px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  .radio-container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 18px;     
+    input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;        
+    }// input
+    .checkmark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 25px;
+      width: 25px;
+      background-color: #eee;
+      border-radius: 50%;
+      &:after {
+        content: "";
+        position: absolute;
+        display: none;          
+      }// .checkmark  
+    }// .checkmark
+  }// .check-container
+  .radio-container{
+    &:hover input ~ .checkmark {
+      background-color: #ccc;
+    }
+    input:checked ~ .checkmark {
+      background-color: #2196f3;
+    }
+    input:checked ~ .checkmark:after {
+      display: block;
+    }
+    .checkmark:after {
+      left: 9px;
+      top: 5px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }// .checkmark:after
+  }// .check-container
+}// difficulty
+
+.message {
+  display: none; 
+  position: fixed; 
+  z-index: 1;
+  padding-top: 200px;
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  background-color: rgba(0,0,0,0.7);
+  .message-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #5cb85c;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    max-width: 500px;
+    height: 200px;
+    -webkit-animation-name: messageAnimate;
+    -webkit-animation-duration: 1s;
+    animation-name: messageAnimate;
+    animation-duration: 1s;      
+    h1 {
+      background-color: #fff;
+      margin: 0;
+      width: 100%;
+      padding: 20px 0 20px;
+      text-align: center;
+      font-family: sans-serif;
+    }// h1      
+  }// .message-content 
+  .warning {
+    background-color: #ff0000;
+  }// warning   
+}// .message
+
+
+
+@-webkit-keyframes messageAnimate {
+  from {top:-400px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes messageAnimate {
+  from {top:-400px; opacity:0}
+  to {top:0; opacity:1}
+}
