@@ -12,7 +12,7 @@ main {
   flex-wrap: wrap;
 }// main
 
-#field {
+.board {
   display: flex;
   flex-wrap: wrap;
   width: 450px;
@@ -184,8 +184,12 @@ main {
   }// .message-content 
   .warning {
     background-color: #ff0000;
-  }// warning   
+  }// warning    
 }// .message
+
+.active {
+  display: block;
+}// .active
 
 
 

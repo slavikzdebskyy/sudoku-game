@@ -19,7 +19,7 @@ main {
       flex-wrap: wrap;
 }
 
-#field {
+.board {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -32,7 +32,7 @@ main {
   border-radius: 5px;
 }
 
-#field .cell {
+.board .cell {
   outline: none;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -48,20 +48,20 @@ main {
   text-align: center;
 }
 
-#field .cell:nth-of-type(3n) {
+.board .cell:nth-of-type(3n) {
   border-right: 3px solid #663300;
 }
 
-#field .cell.border-bottom {
+.board .cell.border-bottom {
   border-bottom: 3px solid #663300;
 }
 
-#field .cell:hover {
+.board .cell:hover {
   border: 3px solid #248f8f;
   border-radius: 5px;
 }
 
-#field .cell:disabled {
+.board .cell:disabled {
   background-color: #cccccc;
   outline: none;
   text-shadow: 0 0 0 #2196f3;
@@ -241,6 +241,10 @@ main {
 
 .message .warning {
   background-color: #ff0000;
+}
+
+.active {
+  display: block;
 }
 
 @-webkit-keyframes messageAnimate {

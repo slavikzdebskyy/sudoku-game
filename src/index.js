@@ -1,15 +1,38 @@
 'use strict';
 
-const $field = document.getElementById('field');           // div => game board
-const $checkBtn = document.getElementById('check-btn');    // button Check
-const $newGameBtn = document.getElementById('nwgm-btn');   // button New Game
-const $modalMssg = document.getElementById('check-msg');   // div => modal window massage
-const $mssgText = document.getElementById('mssg-text');    // h1 => message
-const $restartBtn = document.getElementById('rstrt-btn');  // button Restart
+
+class TurnsRegistrator {
+  constructor () {
+    this.stackTurns = [];
+    this.stackRedoTurns = [];
+    this.prevValue = 0;
+  }
+
+  addNewTurn (el) {
+    this.stackTurns.push(el);
+  }
+
+  getLastTurn () {
+    return this.stackTurns[stackTurns.length - 1];
+  }
+}
+
+const $boardContainer = document.getElementById('board-container');
+const $modalWindow = document.getElementById('modal-check-window');
+
+const $checkBtn = document.getElementById('check-btn'); 
+const $newGameBtn = document.getElementById('nwgm-btn');
+const $restartBtn = document.getElementById('rstrt-btn'); 
 const $undoOrRedoBtns = document.getElementById('undo-redo-btns');
-const stackOfTurns = [];                                   // Array where saved all turns
-const prevTurns = [];                                      // Array of previeus turns
-let prevValue;                                             // Cell's value before onfocus 
+
+const turnsRegistrator = new TurnsRegistrator();
+
+// console.log(turnsRegistrator);
+const stackTurns = [];
+const stackRedoTurns = [];
+let prevValue;
+
+
 const copyArrayForRestart = [];                            // copy boardArray if user want replay this puzzle
 const boardArray = [];                                     // renderer array on board
 const shemeArray = [                                       // sheme array for create new boardArray
@@ -24,9 +47,14 @@ const shemeArray = [                                       // sheme array for cr
   [9,1,2,3,4,5,6,7,8]  
 ];
 
+
+
+
+
+
 //  input's validation (user can enter only numbers)
 //  and set prevVlue:
-$field.addEventListener('keydown', ({target, keyCode}) => {
+$boardContainer.addEventListener('keydown', ({target, keyCode}) => {
   prevValue = target.value;
   target.onkeypress = () => {
     if (!(keyCode >= 49 && keyCode <= 57)){
@@ -40,25 +68,25 @@ $field.addEventListener('keydown', ({target, keyCode}) => {
 });// END of input's validation
 
 $undoOrRedoBtns.addEventListener('click', ({target}) => {
-  undoOrRedoLastTurn(stackOfTurns, prevTurns, target.innerText);
+  undoOrRedoLastTurn(stackTurns, stackRedoTurns, target.innerText);
 });
 
 // when user entered some number in cell - this turn will
 // push to stackArr:
-$field.addEventListener('change', ({target}) => {
+$boardContainer.addEventListener('change', ({target}) => {
   if (target.value !== '' && prevValue !== 0){
     addTurnToStackArray(target.name, prevValue);
   }
 });// END onchange event;
 
 //  input set in focus when mouseover(hover):
-$field.addEventListener('mouseover', ({target}) => {
+$boardContainer.addEventListener('mouseover', ({target}) => {
   target.focus();   
 });//  END of input set in focus when mouseover(hover);
 
 // add event on button New Game:
 $newGameBtn.addEventListener('click', () => {  
-  clearBoard($field);
+  clearBoard($boardContainer);
   copyArray(boardArray, shemeArray);
   newBoardArray(boardArray);
   copyArray(copyArrayForRestart, boardArray);
@@ -67,31 +95,31 @@ $newGameBtn.addEventListener('click', () => {
 
 // add event on button Restart:
 $restartBtn.addEventListener('click', ()=> {
-  clearBoard($field);
+  clearBoard($boardContainer);
   copyArray(boardArray, copyArrayForRestart);
   createBoard(boardArray);
 });// END of add event on button Restart
 
 //  add event on modal message window (close this window):
-$modalMssg.addEventListener('click', () => {
-  const $content = $modalMssg.children[0];
+$modalWindow.addEventListener('click', () => {
+  const $content = $modalWindow.children[0];
   if ($content.classList.contains('warning')){
     $content.classList.toggle('warning');
   }
-  $modalMssg.style.display = 'none';  
+  $modalWindow.classList.toggle('active');  
 });//  END of add event on modal message window;
 
 //  add event on button Check:
 $checkBtn.addEventListener('click', () => {
   const filledBoard = getBoard();
-  const $mssgModal = $modalMssg.children[0];
+  const $mssgContent = $modalWindow.children[0];
+  const $mssgText = document.getElementById('mssg-text');
+  $modalWindow.classList.add('active');
   if (checkColumnsAndRows(filledBoard) && checkBlocks(filledBoard)){
     $mssgText.innerText = 'Congratulation !';
-    $modalMssg.style.display = 'block';
   } else {
-    $mssgModal.classList.toggle('warning');
-    $mssgText.innerText = 'Incorrect !';
-    $modalMssg.style.display = 'block';
+    $mssgContent.classList.toggle('warning');
+    $mssgText.innerText = 'Incorrect !';    
   }
 });//  END of add event on button Check;
 
@@ -206,7 +234,7 @@ const createBoard = array => {
         input.disabled = true;
         input.value = elInRow;
       }
-      $field.appendChild(input);
+      $boardContainer.appendChild(input);
     });
   });  
 };//  END of function createBoard(arr)
@@ -214,7 +242,7 @@ const createBoard = array => {
 //  function getBoard() returns array from game board
 //  that the user has filled in
 const getBoard = () => {
-  const $cells = $field.getElementsByClassName('cell');
+  const $cells = $boardContainer.getElementsByClassName('cell');
   const len = $cells.length;
   const board = [];
   let row = [];  
@@ -459,14 +487,14 @@ const addTurnToStackArray = (koordStr, value) => {
     col: koord[1],
     value: value
   };
-  stackOfTurns.push(turn);
+  stackTurns.push(turn);
 };// END of function addTurnToStackArray(koordSrt, val);
 
 
 const undoOrRedoLastTurn = (stackTurns, backupStack, undoOrRedo) => {
   const sTLen = stackTurns.length;
   const bSLen = backupStack.length;
-  const $inputs = $field.getElementsByTagName('input');
+  const $inputs = $boardContainer.getElementsByTagName('input');
   
   const prev = (sTLen) ? stackTurns[sTLen - 1] : 0;
   const indexOfPrevImput = (sTLen) ? prev.row * 9 + prev.col : 0;
