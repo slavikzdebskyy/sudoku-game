@@ -138,6 +138,7 @@ $newGameBtn.addEventListener('click', () => {
   createBoard(boardArray);
   turnsRegistrator.clearRedoStackTurns();
   turnsRegistrator.clearUndoStackTurns();
+  turnsRegistrator.disableOrEnableBtns($undoOrRedoBtnsContainer);
 });
 
 $restartBtn.addEventListener('click', ()=> {
@@ -146,19 +147,23 @@ $restartBtn.addEventListener('click', ()=> {
   createBoard(boardArray);
   turnsRegistrator.clearRedoStackTurns();
   turnsRegistrator.clearUndoStackTurns();
+  turnsRegistrator.disableOrEnableBtns($undoOrRedoBtnsContainer);
 });
 
 $checkBtn.addEventListener('click', () => {
   const filledBoard = getBoard();
   const $mssgContent = $modalWindow.children[0];
-  const $mssgText = document.getElementById('mssg-text');
-  $modalWindow.classList.add('active');
+  const $mssgText = document.getElementById('mssg-text');  
   if (checkColumnsAndRows(filledBoard) && checkBlocks(filledBoard)){
     $mssgText.innerText = 'Congratulation !';
+    turnsRegistrator.clearRedoStackTurns();
+    turnsRegistrator.clearUndoStackTurns();
+    turnsRegistrator.disableOrEnableBtns($undoOrRedoBtnsContainer);
   } else {
     $mssgContent.classList.toggle('warning');
     $mssgText.innerText = 'Incorrect !';    
   }
+  $modalWindow.classList.add('active');
 });
 
 $modalWindow.addEventListener('click', () => {
