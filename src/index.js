@@ -13,13 +13,19 @@ class TurnsRegistrator {
     this.undoStackTurns.push(lastTurn);
   }
 
-  hasElementsInundoStackTurns () {
-    return Boolean(this.undoStackTurns.length);
-  }
-
-  hasElementsInredoStackTurns () {
-    return Boolean(this.redoStackTurns.length);
-  }
+  disableOrEnableBtns ($redoOrUndoBtnsContainer)  {
+    const buttonsUndoRedo = $redoOrUndoBtnsContainer.getElementsByTagName('button');
+    const isUndoStackTurns = Boolean(this.undoStackTurns.length);
+    const isRedoStackTurns = Boolean(this.redoStackTurns.length);
+    for (const el of buttonsUndoRedo) {
+      if (el.innerText === 'Undo') {
+        el.disabled = !isUndoStackTurns;
+      }
+      if (el.innerText === 'Redo') {
+        el.disabled = !isRedoStackTurns;
+      }
+    }
+  }  
 
   clearRedoStackTurns () {
     while (this.redoStackTurns.length) {
@@ -63,7 +69,7 @@ const $modalWindow = document.getElementById('modal-check-window');
 const $checkBtn = document.getElementById('check-btn'); 
 const $newGameBtn = document.getElementById('new-game-btn');
 const $restartBtn = document.getElementById('restart-btn'); 
-const $undoOrRedoBtns = document.getElementById('undo-redo-btns');
+const $undoOrRedoBtnsContainer = document.getElementById('undo-redo-btns');
 
 const turnsRegistrator = new TurnsRegistrator($boardContainer);
 
@@ -94,7 +100,7 @@ $boardContainer.addEventListener('keydown', ({target, keyCode}) => {
   };
 });
 
-$undoOrRedoBtns.addEventListener('click', ({target}) => {
+$undoOrRedoBtnsContainer.addEventListener('click', ({target}) => {
   switch (target.innerText) {
     case 'Undo':
       turnsRegistrator.undoTurn();
@@ -103,10 +109,9 @@ $undoOrRedoBtns.addEventListener('click', ({target}) => {
       turnsRegistrator.redoTurn();
       break;
   }
+  turnsRegistrator.disableOrEnableBtns($undoOrRedoBtnsContainer);
 });
 
-// when user entered some number in cell - this turn will
-// push to stackArr:
 $boardContainer.addEventListener('change', ({target}) => {
   const cellIndex = parseInt(target.getAttribute('data-index'));
   if (target.value !== '' && turnsRegistrator.prevValue !== 0){   
@@ -116,15 +121,15 @@ $boardContainer.addEventListener('change', ({target}) => {
     };
     turnsRegistrator.addNewTurn(turn);
     turnsRegistrator.clearRedoStackTurns();
+    turnsRegistrator.disableOrEnableBtns($undoOrRedoBtnsContainer);
+    
   }
-});// END onchange event;
+});
 
-//  input set in focus when mouseover(hover):
 $boardContainer.addEventListener('mouseover', ({target}) => {
   target.focus();   
-});//  END of input set in focus when mouseover(hover);
+});
 
-// add event on button New Game:
 $newGameBtn.addEventListener('click', () => {  
   clearBoard($boardContainer);
   copyArray(boardArray, shemeArray);
@@ -133,18 +138,16 @@ $newGameBtn.addEventListener('click', () => {
   createBoard(boardArray);
   turnsRegistrator.clearRedoStackTurns();
   turnsRegistrator.clearUndoStackTurns();
-});// END of add event on button New Game;
+});
 
-// add event on button Restart:
 $restartBtn.addEventListener('click', ()=> {
   clearBoard($boardContainer);
   copyArray(boardArray, copyArrayForRestart);
   createBoard(boardArray);
   turnsRegistrator.clearRedoStackTurns();
   turnsRegistrator.clearUndoStackTurns();
-});// END of add event on button Restart
+});
 
-//  add event on button Check:
 $checkBtn.addEventListener('click', () => {
   const filledBoard = getBoard();
   const $mssgContent = $modalWindow.children[0];
@@ -156,18 +159,16 @@ $checkBtn.addEventListener('click', () => {
     $mssgContent.classList.toggle('warning');
     $mssgText.innerText = 'Incorrect !';    
   }
-});//  END of add event on button Check;
+});
 
-//  add event on modal message window (close this window):
 $modalWindow.addEventListener('click', () => {
   const $content = $modalWindow.children[0];
   if ($content.classList.contains('warning')){
     $content.classList.toggle('warning');
   }
   $modalWindow.classList.toggle('active');  
-});//  END of add event on modal message window;
+});
 
-//  function copyArray(copyArr, originalArr) creates copy of array:
 const copyArray = (copyArray, originalArray) => {
   let rowHelp = [];
   while (copyArray.length){
@@ -180,20 +181,14 @@ const copyArray = (copyArray, originalArray) => {
     copyArray.push(rowHelp);
     rowHelp = [];
   });
-};//  END function copyArray(copyArr, originalArr);
+};
 
-//  function clearBord($board) deletes all 
-//  children in $board:
 const clearBoard = $board => {
   while ($board.firstChild){
     $board.removeChild($board.firstChild);
   }
-};//  END of function clearBord($board);
+};
 
-//  function checkSimpleArr(arr) checks whether 
-//  all the elements are unique in a simple array
-//  return "false" if elements repeat
-//  return "true" if all elements is unique:
 const checkSimpleArr = array => { 
   let check = true;
   array.forEach((el, index) => {
@@ -202,13 +197,8 @@ const checkSimpleArr = array => {
     }    
   });
   return check;
-};//  END function checkSimpleArr(arr)
+};
 
-
-//  function checkColumnsAndRows(arr) checks whether 
-//  all the elements are unique in rows and columns of array(board)
-//  return "false" if elements repeat
-//  return "true" if all elements is unique:
 const checkColumnsAndRows = array => {
   let j = 0;
   let column;
@@ -229,12 +219,8 @@ const checkColumnsAndRows = array => {
     j++;    
   }
   return check;
-};//  END of function checkColumnsAndRows(arr)
+};
 
-//  function checkBlocks(arr) checks whether 
-//  all the elements are unique in blocks of array(board)
-//  return "false" if elements repeat
-//  return "true" if all elements is unique:
 const checkBlocks = array => {
   let block1 = [];
   let block2 = [];
@@ -260,10 +246,8 @@ const checkBlocks = array => {
     }
   });
   return check;
-};//  END of function checkBlocks(arr)
+};
 
-//  function createBoard(arr) creates HTML tags
-//  and rendered start board:
 const createBoard = array => {
   array.forEach((row, indexRow) => {
     row.forEach((elInRow, indeColunm) => {
@@ -281,10 +265,8 @@ const createBoard = array => {
       $boardContainer.appendChild(input);
     });
   });  
-};//  END of function createBoard(arr)
+};
 
-//  function getBoard() returns array from game board
-//  that the user has filled in
 const getBoard = () => {
   const $cells = $boardContainer.getElementsByClassName('cell');
   const len = $cells.length;
@@ -303,9 +285,8 @@ const getBoard = () => {
   }
   board.push(row);
   return board;
-};//  END function getBoard()
+};
 
-//  function rotateRows(arr, firstIndex, secondIndex) rotates 2 rows
 const rotateRows = (array, firstIndex, secondIndex) => {   
   if ((firstIndex >= 0 && secondIndex <= 2) ||
     (firstIndex >= 3 && secondIndex <= 5) ||
@@ -316,9 +297,8 @@ const rotateRows = (array, firstIndex, secondIndex) => {
   } else {
     return;
   }
-};//  END of function rotateRows(arr, firstIndex, secondIndex)
+};
 
-//  function rotateColumns(arr, firstIndex, secondIndex) rotates 2 columns
 const rotateColumns = (array, firstIndex, secondIndex) => {
   let helpElem;
   if ( (firstIndex >= 0 && secondIndex <= 2) ||
@@ -332,10 +312,8 @@ const rotateColumns = (array, firstIndex, secondIndex) => {
   } else {
     return;
   }
-};// END function rotateColumns(arr, firstIndex, secondIndex)
+};
 
-//  function rotateBlockOfRows(arr, firstBlock, secondBlock) 
-//  rotates 2 blocks(1 block contains 3 rows):
 const rotateBlockOfRows = (array, firstBlock, secondBlock) => {
   if ( (firstBlock < 1) || (firstBlock > 3) ||
       (secondBlock < 1) || (secondBlock > 3) ||
@@ -383,8 +361,6 @@ const rotateBlockOfRows = (array, firstBlock, secondBlock) => {
   }
 };
 
-//  function rotateBlockOfColumns(arr, firstBlock, secondBlock) 
-//  rotates 2 blocks(1 block contains 3 columns):
 const rotateBlockOfColumns = (array, firstBlock, secondBlock) => {
   if ( (firstBlock < 1) || (firstBlock > 3) ||
       (secondBlock < 1) || (secondBlock > 3) ||
@@ -436,12 +412,8 @@ const rotateBlockOfColumns = (array, firstBlock, secondBlock) => {
       }
     }
   }
-};//  END of function rotateBlockOfColumns(arr, firstBlock, secondBlock) 
+};
 
-
-//  function transportingBoard(arr) rotate array
-//  columns => rows
-//  rows => columns:
 const transportingBoard = array => {
   const copyArr = array.slice(0, array.length);
   const len = array.length;
@@ -456,21 +428,14 @@ const transportingBoard = array => {
     array.push(row);
     row = [];
   }
-};//  END of function transportingBoard(arr)
+};
 
-//  function return random number 
-//  between min value and max value:
 const getRandomBetweenMinAndMax = (min, max) => {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
-};//  END of function getRandomBetweenMinAndMax(min, max);
+};
 
-//  function newBoardArray(arr) rotates array N times,
-//  where N is random number between 1 and 9;
-//  After that this function removes some
-//  squares on board. Amount of removed squares
-//  depends on difficulty:
 const newBoardArray = array => {
   const $difficutlyCont = document.getElementById('difficulty');
   const $difficutlyVal = $difficutlyCont.getElementsByTagName('input');
@@ -518,5 +483,7 @@ const newBoardArray = array => {
     j = getRandomBetweenMinAndMax(0, 8);
     array[i][j] = 0;
   }  
-};//  END of function newBoardArray(arr);
+};
+
+
 
