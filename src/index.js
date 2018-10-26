@@ -223,14 +223,14 @@ const checkColumnsAndRows = array => {
 };
 
 const checkBlocks = array => {
-  let block1 = [];
-  let block2 = [];
-  let block3 = [];  
+  const block1 = [];
+  const block2 = [];
+  const block3 = [];  
   let check = true;
   array.forEach(el => {
-    block1 = block1.concat(el.slice(0,3));
-    block2 = block2.concat(el.slice(3,6));
-    block3 = block3.concat(el.slice(6,9));
+    block1.push(el.slice(0,3));
+    block2.push(el.slice(3,6));
+    block3.push(el.slice(6,9));
     if (block1.length === 9){
       if (!checkSimpleArr(block1)) {
         check = false;
@@ -241,9 +241,9 @@ const checkBlocks = array => {
       if (!checkSimpleArr(block3)) {
         check = false;
       }      
-      block1 = [];
-      block2 = [];
-      block3 = [];
+      block1.length = 0;
+      block2.length = 0;
+      block3.length = 0;
     }
   });
   return check;
