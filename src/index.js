@@ -109,8 +109,8 @@ $boardContainer.addEventListener('change', ({target}) => {
     };
     turnsRegistrator.addNewTurn(turn);
     turnsRegistrator.clearRedoStackTurns();
-    turnsRegistrator.disableOrEnableBtns($undoOrRedoBtnsContainer);
-    
+    turnsRegistrator.disableOrEnableBtns($undoOrRedoBtnsContainer); 
+    dispatchEventCheck();   
   }
 });
 
@@ -142,7 +142,7 @@ $newGameBtn.addEventListener('click', () => {
   createBoard(boardArray);
   turnsRegistrator.clearRedoStackTurns();
   turnsRegistrator.clearUndoStackTurns();
-  turnsRegistrator.disableOrEnableBtns($undoOrRedoBtnsContainer);
+  turnsRegistrator.disableOrEnableBtns($undoOrRedoBtnsContainer);  
 });
 
 $restartBtn.addEventListener('click', ()=> {
@@ -169,6 +169,8 @@ $checkBtn.addEventListener('click', () => {
   }
   $modalWindow.classList.add('active');
 });
+
+
 
 $modalWindow.addEventListener('click', () => {
   const $content = $modalWindow.children[0];
@@ -533,6 +535,21 @@ const selectIdenticNumbers = number => {
       el.classList.toggle('color-identic-numbers');
     }
   }
+};
+
+const dispatchEventCheck = () => {
+  const event = document.createEvent('HTMLEvents');
+  const $cells = $boardContainer.getElementsByClassName('cell');  
+  const filledCellsArray = [];
+  event.initEvent('click', true, true);
+  for (const el of $cells) {
+    if (el.value) {
+      filledCellsArray.push(el.value);
+    }
+  }
+  if (filledCellsArray.length === 81) {
+    $checkBtn.dispatchEvent(event);
+  }  
 };
 
 
