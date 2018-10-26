@@ -213,12 +213,12 @@ const checkColumnsAndRows = array => {
   while (j < arrLength){    
     const column = array.map(el=>{
       return el[j];
-    });     
+    });    
     if (!checkSimpleArr(column)){      
       isUnique = false;
     }
     j++;    
-  }
+  }  
   return isUnique;
 };
 
@@ -272,7 +272,7 @@ const getBoard = () => {
   const $cells = $boardContainer.getElementsByClassName('cell');
   const cellsLength = $cells.length;
   const board = [];
-  const row = [];  
+  let row = [];  
   let koef = 1;
   for (let i = 0; i < cellsLength; i++){
     if ((9 * koef) > i){
@@ -280,7 +280,7 @@ const getBoard = () => {
     } else {
       board.push(row);
       koef++;
-      row.length = 0;
+      row = [];
       row.push($cells[i].value);
     }        
   }
@@ -419,9 +419,10 @@ const transportingBoard = array => {
   const copyArr = array.slice(0, array.length);
   const len = array.length;
   let row = [];
-  while (array.length){
-    array.pop();
-  }
+  // while (array.length){
+  //   array.pop();
+  // }
+  array.length = 0;
   for (let i = 0; i < len; i++){
     for (let j = 0; j < len; j++){
       row.push(copyArr[j][i]);
@@ -479,11 +480,11 @@ const newBoardArray = array => {
       difficulty = 70;
       break;
   }
-  for (let k = 0; k <= difficulty; k++){
-    i = getRandomBetweenMinAndMax(0, 8);
-    j = getRandomBetweenMinAndMax(0, 8);
-    array[i][j] = 0;
-  }  
+  // for (let k = 0; k <= difficulty; k++){
+  //   i = getRandomBetweenMinAndMax(0, 8);
+  //   j = getRandomBetweenMinAndMax(0, 8);
+  //   array[i][j] = 0;
+  // }  
 };
 
 const selectRowAndColumn = cellIndex => {
