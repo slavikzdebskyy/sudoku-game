@@ -418,10 +418,7 @@ const rotateBlockOfColumns = (array, firstBlock, secondBlock) => {
 const transportingBoard = array => {
   const copyArr = array.slice(0, array.length);
   const len = array.length;
-  let row = [];
-  // while (array.length){
-  //   array.pop();
-  // }
+  let row = [];  
   array.length = 0;
   for (let i = 0; i < len; i++){
     for (let j = 0; j < len; j++){
