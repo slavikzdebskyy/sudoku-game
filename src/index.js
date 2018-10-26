@@ -115,9 +115,7 @@ $boardContainer.addEventListener('change', ({target}) => {
 });
 
 $boardContainer.addEventListener('click', ({target}) => {
-  const cellIndex = parseInt(target.getAttribute('data-index'));
-  clearSelectedRowsAndColumns(); 
-  clearSelectIdenticNumbers();
+  const cellIndex = parseInt(target.getAttribute('data-index'));  
   if (!target.disabled){
     selectRowAndColumn(cellIndex);
   }  
@@ -502,6 +500,11 @@ const selectRowAndColumn = cellIndex => {
   const len = $cells.length;
   const firstIndexInRow = row * 9;
   const lastIndexInRow = firstIndexInRow + 9;
+  for (const el of $cells) {
+    if (el.classList.contains('background-row-column')){
+      el.classList.toggle('background-row-column');
+    }
+  }
   for (let i = firstIndexInRow; i < lastIndexInRow; i++) {
     if (i !== cellIndex){
       $cells[i].classList.toggle('background-row-column');
@@ -515,17 +518,16 @@ const selectRowAndColumn = cellIndex => {
   }
 };
 
-const clearSelectedRowsAndColumns = () => {
-  const $cells = $boardContainer.getElementsByClassName('cell');
-  for (const el of $cells) {
-    if (el.classList.contains('background-row-column')){
-      el.classList.toggle('background-row-column');
-    }
-  }
-};
 
 const selectIdenticNumbers = number => {
   const $cells = $boardContainer.getElementsByClassName('cell');
+  if (number) {
+    for (const el of $cells) {
+      if (el.classList.contains('color-identic-numbers')){
+        el.classList.toggle('color-identic-numbers');
+      }
+    }
+  }  
   for (const el of $cells) {
     if (el.value === number && number){
       el.classList.toggle('color-identic-numbers');
@@ -533,12 +535,4 @@ const selectIdenticNumbers = number => {
   }
 };
 
-const clearSelectIdenticNumbers = () => {
-  const $cells = $boardContainer.getElementsByClassName('cell');
-  for (const el of $cells) {
-    if (el.classList.contains('color-identic-numbers')){
-      el.classList.toggle('color-identic-numbers');
-    }
-  }
-};
 
