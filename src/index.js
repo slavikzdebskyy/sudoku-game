@@ -226,34 +226,34 @@ const checkBlocks = array => {
   const block1 = [];
   const block2 = [];
   const block3 = [];  
-  let check = true;
+  let isUnique = true;
   array.forEach(el => {
     block1.push(el.slice(0,3));
     block2.push(el.slice(3,6));
     block3.push(el.slice(6,9));
     if (block1.length === 9){
       if (!checkSimpleArr(block1)) {
-        check = false;
+        isUnique = false;
       }
       if (!checkSimpleArr(block2)) {
-        check = false;
+        isUnique = false;
       }
       if (!checkSimpleArr(block3)) {
-        check = false;
+        isUnique = false;
       }      
       block1.length = 0;
       block2.length = 0;
       block3.length = 0;
     }
   });
-  return check;
+  return isUnique;
 };
 
 const createBoard = array => {
   array.forEach((row, indexRow) => {
-    row.forEach((elInRow, indeColunm) => {
+    row.forEach((elInRow, indexColunm) => {
       const input = document.createElement('input');
-      input.setAttribute('data-index', indexRow * 9 + indeColunm);
+      input.setAttribute('data-index', indexRow * 9 + indexColunm);
       if (indexRow === 2 || indexRow === 5){
         input.className = 'cell border-bottom';
       } else {
@@ -270,17 +270,17 @@ const createBoard = array => {
 
 const getBoard = () => {
   const $cells = $boardContainer.getElementsByClassName('cell');
-  const len = $cells.length;
+  const cellsLength = $cells.length;
   const board = [];
-  let row = [];  
+  const row = [];  
   let koef = 1;
-  for (let i = 0; i < len; i++){
+  for (let i = 0; i < cellsLength; i++){
     if ((9 * koef) > i){
       row.push($cells[i].value);      
     } else {
       board.push(row);
       koef++;
-      row = [];
+      row.length = 0;
       row.push($cells[i].value);
     }        
   }
