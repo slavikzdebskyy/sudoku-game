@@ -8,8 +8,11 @@
   <link rel="stylesheet" href="src/style.css">
 </head>
 <body>
-  <main>
-    <div id="difficulty" class="difficulty-container">
+  <main>    
+    <div>
+      <div id="board-container" class="board">   
+      </div>
+      <div id="difficulty" class="difficulty-container">
         <label class="radio-container">Easy
           <input type="radio" checked="checked" name="difficult" value="0">
           <span class="checkmark"></span>
@@ -22,19 +25,16 @@
           <input type="radio" name="difficult" value="2">
           <span class="checkmark"></span>
         </label>
-    </div>
-    <div>
-      <div id="board-container" class="board">   
       </div>
-      <div class="controls">
-        <button id="new-game-btn" class="ctrl-btn new-game-btn">New Game</button>
-        <button id="check-btn" class="ctrl-btn">Check</button>
-        <button id="restart-btn" class="ctrl-btn restart-btn">Restart</button>        
-      </div>
-    </div>
-    <div class="next-prev-container" id="undo-redo-btns">
-      <button class="ctrl-btn" disabled>Undo</button>
-      <button class="ctrl-btn" disabled>Redo</button>
+    </div>   
+    <div class="controls">
+      <div id="undo-redo-btns" class="undo-redo-btns">
+        <button class="ctrl-btn" disabled>Undo</button>
+        <button class="ctrl-btn" disabled>Redo</button>
+      </div> 
+      <button id="new-game-btn" class="ctrl-btn new-game-btn">New Game</button>
+      <button id="check-btn" class="ctrl-btn">Check</button>
+      <button id="restart-btn" class="ctrl-btn restart-btn">Restart</button>                   
     </div>
     <div id="modal-check-window" class="message">
       <div class="message-content">     

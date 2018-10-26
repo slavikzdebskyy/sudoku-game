@@ -17,6 +17,7 @@ main {
           align-items: center;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
+  padding-top: 25px;
   cursor: url(./assets/cursor_PNG74.png), auto;
 }
 
@@ -88,7 +89,8 @@ main {
   background-color: #fff;
   border-color: #2196F3;
   color: #2196F3;
-  padding: 14px 20px;
+  width: 100px;
+  height: 40px;
   font-size: 16px;
   cursor: inherit;
   outline: none;
@@ -105,54 +107,51 @@ main {
   opacity: .5;
 }
 
-.next-prev-container {
-  width: 100px;
-  height: 220px;
+.controls {
+  height: 450px;
+  padding-left: 5px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
 }
 
-.controls {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  min-height: 100px;
-  width: 450px;
-}
-
-.controls .new-game-btn:hover,
-.controls .restart-btn:hover {
+.new-game-btn:hover,
+.restart-btn:hover {
   color: red;
 }
 
-.difficulty-container {
-  width: 130px;
-  height: 150px;
+.undo-redo-btns {
+  height: 112.5px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+}
+
+.difficulty-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  padding-top: 10px;
 }
 
 .difficulty-container .radio-container {
@@ -285,6 +284,36 @@ main {
   to {
     top: 0;
     opacity: 1;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .board {
+    width: 270px;
+    height: 270px;
+  }
+  .board .cell {
+    width: 30px;
+    height: 30px;
+    font-size: 24px;
+  }
+  .controls {
+    height: 200px;
+    width: 270px;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+  }
+  .undo-redo-btns {
+    height: 50px;
+    width: 270px;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
   }
 }
 /*# sourceMappingURL=style.css.map */

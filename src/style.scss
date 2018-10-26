@@ -1,3 +1,7 @@
+$boardWigth: 450px;
+$boardHeight: 450px;
+
+
 body {
   margin: 0;
   background-color: #e6e6e6;
@@ -10,22 +14,23 @@ main {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  padding-top: 25px;
   cursor: url(./assets/cursor_PNG74.png), auto;
 }// main
 
 .board {
   display: flex;
   flex-wrap: wrap;
-  width: 450px;
-  height: 450px;
+  width: $boardWigth;
+  height: $boardHeight;
   border: 3px solid #663300;
   border-right: 1px solid #663300;
   border-radius: 5px;
   .cell {
     outline: none;
     box-sizing: border-box;
-    width: 50px;
-    height: 50px;
+    width: $boardWigth / 9;
+    height: $boardHeight / 9;
     border: 1px solid #000000;
     background-color: #e6e6e6;
     color: transparent;
@@ -68,7 +73,8 @@ main {
   background-color: #fff;
   border-color: #2196F3;
   color: #2196F3;
-  padding: 14px 20px;
+  width: 100px;
+  height: 40px;
   font-size: 16px;
   cursor: inherit;
   outline: none;
@@ -82,33 +88,33 @@ main {
   } // .ctrl-btn:disabled   
 }// .ctrl-btn
 
-.next-prev-container {
-  width: 100px;
-  height: 220px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-}
 
 .controls {
+  height: $boardHeight;
+  padding-left: 5px;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  min-height: 100px;
-  width: 450px;     
-  .new-game-btn:hover,
-  .restart-btn:hover {
-    color: red;
-  }// .nwgm:hover, .rstrt:hover
+  flex-direction: column;   
 }// .controls
 
-.difficulty-container {
-  width: 130px;
-  height: 150px;
+.new-game-btn:hover,
+.restart-btn:hover {
+  color: red;
+}// .nwgm:hover, .rstrt:hover
+
+.undo-redo-btns {
+  height: $boardHeight / 4;
   display: flex;
+  justify-content: space-around;
+  align-items: center;
   flex-direction: column;
-  justify-content: space-between;
+}// .undo-redo-btns
+
+.difficulty-container {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 10px;
   .radio-container {
     display: block;
     position: relative;
@@ -216,3 +222,28 @@ main {
   from {top:-400px; opacity:0}
   to {top:0; opacity:1}
 }
+
+@media only screen and (max-width: 600px) {
+  $boardHeight: 270px;
+  $boardWigth: 270px;   
+  .board {
+    width: $boardWigth;
+    height: $boardHeight;
+    .cell {    
+      width: $boardWigth / 9;
+      height: $boardHeight / 9;
+      font-size: 24px;
+    }//  .cell
+  }// .board
+  .controls {
+    height: 200px;
+    width: $boardWigth;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }// .controls
+  .undo-redo-btns {
+    height: 50px;
+    width: $boardWigth;
+    flex-direction: row;
+  }// .undo-redo-btns
+}// @media only screen and (max-width: 600px) 

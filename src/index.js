@@ -540,5 +540,5 @@ const clearSelectIdenticNumbers = () => {
       el.classList.toggle('color-identic-numbers');
     }
   }
-}
+};
 
