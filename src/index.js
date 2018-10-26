@@ -1,66 +1,11 @@
 'use strict';
 
-class TurnsRegistrator {
-  constructor ($board) {
-    this.undoStackTurns = [];
-    this.redoStackTurns = [];
-    this.prevValue = 0;
-    this.$cells = $board.getElementsByTagName('input');
-  }
-
-  addNewTurn (lastTurn) {
-    this.undoStackTurns.push(lastTurn);
-  }
-
-  disableOrEnableBtns ($redoOrUndoBtnsContainer)  {
-    const buttonsUndoRedo = $redoOrUndoBtnsContainer.getElementsByTagName('button');
-    const isUndoStackTurns = Boolean(this.undoStackTurns.length);
-    const isRedoStackTurns = Boolean(this.redoStackTurns.length);
-    for (const el of buttonsUndoRedo) {
-      if (el.innerText === 'Undo') {
-        el.disabled = !isUndoStackTurns;
-      }
-      if (el.innerText === 'Redo') {
-        el.disabled = !isRedoStackTurns;
-      }
-    }
-  }  
-
-  clearRedoStackTurns () {
-    while (this.redoStackTurns.length) {
-      this.redoStackTurns.pop();
-    }
-  }
-
-  clearUndoStackTurns () {
-    while (this.undoStackTurns.length) {
-      this.undoStackTurns.pop();
-    }
-  }
-
-  undoTurn ()  { 
-    const lastIndex = this.undoStackTurns.length - 1;
-    const lastTurn = this.undoStackTurns[lastIndex];
-    const currentValue = this.$cells[lastTurn.cellIndex].value;
-
-    this.$cells[lastTurn.cellIndex].value = lastTurn.cellValue;
-    lastTurn.cellValue = currentValue;
-    this.redoStackTurns.push(lastTurn);
-    this.undoStackTurns.pop();
-  }
-
-  redoTurn ()  { 
-    const lastIndex = this.redoStackTurns.length - 1;
-    const lastTurn = this.redoStackTurns[lastIndex];
-    const currentValue = this.$cells[lastTurn.cellIndex].value;
-
-    this.$cells[lastTurn.cellIndex].value = lastTurn.cellValue;
-    lastTurn.cellValue = currentValue;
-    this.undoStackTurns.push(lastTurn);
-    this.redoStackTurns.pop();
-  }
-  
-}
+import * as Board_Check from './board.checking.js';
+import {clearBoard, getBoard, copyArray, rotateRows, 
+  rotateColumns, rotateBlockOfRows, rotateBlockOfColumns, 
+  transportingBoard, getRandomBetweenMinAndMax} from './board.greating.js';
+import {selectRowAndColumn, selectIdenticNumbers} from './board.selected.js';
+import TurnsRegistrator from './turns.registrator.js';
 
 const $boardContainer = document.getElementById('board-container');
 const $modalWindow = document.getElementById('modal-check-window');
@@ -116,9 +61,9 @@ $boardContainer.addEventListener('change', ({target}) => {
 $boardContainer.addEventListener('click', ({target}) => {
   const cellIndex = parseInt(target.getAttribute('data-index'));  
   if (!target.disabled){
-    selectRowAndColumn(cellIndex);
+    selectRowAndColumn(cellIndex, $boardContainer);
   }  
-  selectIdenticNumbers(target.value);  
+  selectIdenticNumbers(target.value, $boardContainer);  
 });
 
 $undoOrRedoBtnsContainer.addEventListener('click', ({target}) => {
@@ -154,10 +99,10 @@ $restartBtn.addEventListener('click', ()=> {
 });
 
 $checkBtn.addEventListener('click', () => {
-  const filledBoard = getBoard();
+  const filledBoard = getBoard('cell', $boardContainer);
   const $mssgContent = $modalWindow.children[0];
   const $mssgText = document.getElementById('mssg-text');  
-  if (checkColumnsAndRows(filledBoard) && checkBlocks(filledBoard)){
+  if (Board_Check.checkColumnsAndRows(filledBoard) && Board_Check.checkBlocks(filledBoard)){
     $mssgText.innerText = 'Congratulation !';
     turnsRegistrator.clearRedoStackTurns();
     turnsRegistrator.clearUndoStackTurns();
@@ -177,78 +122,6 @@ $modalWindow.addEventListener('click', () => {
   $modalWindow.classList.toggle('active');  
 });
 
-const copyArray = (copyArray, originalArray) => {  
-  copyArray.length = 0;
-  originalArray.forEach(row => {    
-    copyArray.push(row);    
-  });
-};
-
-
-const clearBoard = $board => {
-  while ($board.firstChild){
-    $board.removeChild($board.firstChild);
-  }
-};
-
-const checkSimpleArr = array => { 
-  let isUnique = true;
-  array.forEach((el, index) => {
-    if (array.slice(index + 1, array.length).includes(el)){
-      isUnique = false;
-    }    
-  });
-  return isUnique;
-};
-
-const checkColumnsAndRows = array => {
-  let j = 0;
-  let isUnique = true;
-  const arrLength = array.length;
-  array.forEach(row => {
-    if (!checkSimpleArr(row)){
-      isUnique = false;
-    }
-  });
-  while (j < arrLength){    
-    const column = array.map(el=>{
-      return el[j];
-    });    
-    if (!checkSimpleArr(column)){      
-      isUnique = false;
-    }
-    j++;    
-  }  
-  return isUnique;
-};
-
-const checkBlocks = array => {
-  const block1 = [];
-  const block2 = [];
-  const block3 = [];  
-  let isUnique = true;
-  array.forEach(el => {
-    block1.push(el.slice(0,3));
-    block2.push(el.slice(3,6));
-    block3.push(el.slice(6,9));
-    if (block1.length === 9){
-      if (!checkSimpleArr(block1)) {
-        isUnique = false;
-      }
-      if (!checkSimpleArr(block2)) {
-        isUnique = false;
-      }
-      if (!checkSimpleArr(block3)) {
-        isUnique = false;
-      }      
-      block1.length = 0;
-      block2.length = 0;
-      block3.length = 0;
-    }
-  });
-  return isUnique;
-};
-
 const createBoard = array => {
   array.forEach((row, indexRow) => {
     row.forEach((elInRow, indexColunm) => {
@@ -266,173 +139,6 @@ const createBoard = array => {
       $boardContainer.appendChild(input);
     });
   });  
-};
-
-const getBoard = () => {
-  const $cells = $boardContainer.getElementsByClassName('cell');
-  const cellsLength = $cells.length;
-  const board = [];
-  let row = [];  
-  let koef = 1;
-  for (let i = 0; i < cellsLength; i++){
-    if ((9 * koef) > i){
-      row.push($cells[i].value);      
-    } else {
-      board.push(row);
-      koef++;
-      row = [];
-      row.push($cells[i].value);
-    }        
-  }
-  board.push(row);
-  return board;
-};
-
-const rotateRows = (array, firstIndex, secondIndex) => {   
-  if ((firstIndex >= 0 && secondIndex <= 2) ||
-    (firstIndex >= 3 && secondIndex <= 5) ||
-    (firstIndex >= 6 && secondIndex <= 8)){
-    const el = array[firstIndex]; 
-    array.splice(firstIndex, 1, array[secondIndex]);
-    array.splice(secondIndex, 1, el);
-  } else {
-    return;
-  }
-};
-
-const rotateColumns = (array, firstIndex, secondIndex) => {
-  let helpElem;
-  if ( (firstIndex >= 0 && secondIndex <= 2) ||
-      (firstIndex >= 3 && secondIndex <= 5) ||
-      (firstIndex >= 6 && secondIndex <= 8)    ){
-    array.forEach(el => {
-      helpElem = el[firstIndex];
-      el[firstIndex] = el[secondIndex];
-      el[secondIndex] = helpElem;
-    });
-  } else {
-    return;
-  }
-};
-
-const rotateBlockOfRows = (array, firstBlock, secondBlock) => {
-  if ( (firstBlock < 1) || (firstBlock > 3) ||
-      (secondBlock < 1) || (secondBlock > 3) ||
-      (firstBlock === secondBlock)) {        
-    return;
-  }
-  let helpRow;
-  if ( ((firstBlock === 1) && (secondBlock === 2)) ||
-      ((firstBlock === 2) && (secondBlock === 1))) { 
-    helpRow = array[0]; 
-    array.splice(0, 1, array[3]);
-    array.splice(3, 1, helpRow);
-    helpRow = array[1]; 
-    array.splice(1, 1, array[4]);
-    array.splice(4, 1, helpRow);
-    helpRow = array[2]; 
-    array.splice(2, 1, array[5]);
-    array.splice(5, 1, helpRow);
-  } else {
-    if ( ((firstBlock === 1) && (secondBlock === 3)) ||
-        ((firstBlock === 3) && (secondBlock === 1))) {
-      helpRow = array[0]; 
-      array.splice(0, 1, array[6]);
-      array.splice(6, 1, helpRow);
-      helpRow = array[1]; 
-      array.splice(1, 1, array[7]);
-      array.splice(7, 1, helpRow);
-      helpRow = array[2]; 
-      array.splice(2, 1, array[8]);
-      array.splice(8, 1, helpRow);
-    } else {
-      if ( ((firstBlock === 2) && (secondBlock === 3)) ||
-          ((firstBlock === 3) && (secondBlock === 2))) {
-        helpRow = array[3]; 
-        array.splice(3, 1, array[6]);
-        array.splice(6, 1, helpRow);
-        helpRow = array[4]; 
-        array.splice(4, 1, array[7]);
-        array.splice(7, 1, helpRow);
-        helpRow = array[5]; 
-        array.splice(5, 1, array[8]);
-        array.splice(8, 1, helpRow);
-      }
-    }
-  }
-};
-
-const rotateBlockOfColumns = (array, firstBlock, secondBlock) => {
-  if ( (firstBlock < 1) || (firstBlock > 3) ||
-      (secondBlock < 1) || (secondBlock > 3) ||
-      (firstBlock === secondBlock)) {        
-    return;
-  }
-  let helpElem;
-  if ( ((firstBlock === 1) && (secondBlock === 2)) ||
-      ((firstBlock === 2) && (secondBlock === 1))) {
-    array.forEach(el => {
-      helpElem = el[0];
-      el[0] = el[3];
-      el[3] = helpElem;
-      helpElem = el[1];
-      el[1] = el[4];
-      el[4] = helpElem;
-      helpElem = el[2];
-      el[2] = el[5];
-      el[5] = helpElem;
-    });
-  } else {
-    if ( ((firstBlock === 1) && (secondBlock === 3)) ||
-        ((firstBlock === 3) && (secondBlock === 1))) {
-      array.forEach(el => {
-        helpElem = el[0];
-        el[0] = el[6];
-        el[6] = helpElem;
-        helpElem = el[1];
-        el[1] = el[7];
-        el[7] = helpElem;
-        helpElem = el[2];
-        el[2] = el[8];
-        el[8] = helpElem;
-      });
-    } else {
-      if ( ((firstBlock === 2) && (secondBlock === 3)) ||
-          ((firstBlock === 3) && (secondBlock === 2))){
-        array.forEach(el => {
-          helpElem = el[3];
-          el[3] = el[6];
-          el[6] = helpElem;
-          helpElem = el[4];
-          el[4] = el[7];
-          el[7] = helpElem;
-          helpElem = el[5];
-          el[5] = el[8];
-          el[8] = helpElem;
-        });
-      }
-    }
-  }
-};
-
-const transportingBoard = array => {
-  const copyArr = array.slice(0, array.length);
-  const len = array.length;
-  let row = [];  
-  array.length = 0;
-  for (let i = 0; i < len; i++){
-    for (let j = 0; j < len; j++){
-      row.push(copyArr[j][i]);
-    }
-    array.push(row);
-    row = [];
-  }
-};
-
-const getRandomBetweenMinAndMax = (min, max) => {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
 const newBoardArray = array => {
@@ -477,52 +183,11 @@ const newBoardArray = array => {
       difficulty = 70;
       break;
   }
-  for (let k = 0; k <= difficulty; k++){
-    i = getRandomBetweenMinAndMax(0, 8);
-    j = getRandomBetweenMinAndMax(0, 8);
-    array[i][j] = 0;
-  }  
-};
-
-const selectRowAndColumn = cellIndex => {
-  const $cells = $boardContainer.getElementsByClassName('cell');
-  const row = parseInt(cellIndex / 9);
-  const len = $cells.length;
-  const firstIndexInRow = row * 9;
-  const lastIndexInRow = firstIndexInRow + 9;
-  for (const el of $cells) {
-    if (el.classList.contains('background-row-column')){
-      el.classList.toggle('background-row-column');
-    }
-  }
-  for (let i = firstIndexInRow; i < lastIndexInRow; i++) {
-    if (i !== cellIndex){
-      $cells[i].classList.toggle('background-row-column');
-    }   
-  }
-  for (let i = cellIndex; i >= 0; i -= 9) {
-    $cells[i].classList.toggle('background-row-column');
-  }
-  for (let i = cellIndex; i < len; i += 9) {
-    $cells[i].classList.toggle('background-row-column');
-  }
-};
-
-
-const selectIdenticNumbers = number => {
-  const $cells = $boardContainer.getElementsByClassName('cell');
-  if (number) {
-    for (const el of $cells) {
-      if (el.classList.contains('color-identic-numbers')){
-        el.classList.toggle('color-identic-numbers');
-      }
-    }
-  }  
-  for (const el of $cells) {
-    if (el.value === number && number){
-      el.classList.toggle('color-identic-numbers');
-    }
-  }
+  // for (let k = 0; k <= difficulty; k++){
+  //   i = getRandomBetweenMinAndMax(0, 8);
+  //   j = getRandomBetweenMinAndMax(0, 8);
+  //   array[i][j] = 0;
+  // }  
 };
 
 const dispatchEventCheck = () => {
@@ -539,5 +204,7 @@ const dispatchEventCheck = () => {
     $checkBtn.dispatchEvent(event);
   }  
 };
+
+
 
 
