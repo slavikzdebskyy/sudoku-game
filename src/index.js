@@ -477,11 +477,11 @@ const newBoardArray = array => {
       difficulty = 70;
       break;
   }
-  // for (let k = 0; k <= difficulty; k++){
-  //   i = getRandomBetweenMinAndMax(0, 8);
-  //   j = getRandomBetweenMinAndMax(0, 8);
-  //   array[i][j] = 0;
-  // }  
+  for (let k = 0; k <= difficulty; k++){
+    i = getRandomBetweenMinAndMax(0, 8);
+    j = getRandomBetweenMinAndMax(0, 8);
+    array[i][j] = 0;
+  }  
 };
 
 const selectRowAndColumn = cellIndex => {
