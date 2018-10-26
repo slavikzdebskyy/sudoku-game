@@ -18,7 +18,7 @@ main {
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   padding-top: 25px;
-  cursor: url(./assets/cursor_PNG74.png), auto;
+  cursor: url(./cursors/cursor-3-512.png), auto;
 }
 
 .board {

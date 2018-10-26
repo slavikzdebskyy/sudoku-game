@@ -25,6 +25,7 @@
     "eslint-plugin-jest": "^21.25.1",
     "eslint-watch": "^4.0.2",
     "stylelint": "^9.6.0",
-    "stylelint-config-standard": "^18.2.0"
+    "stylelint-config-standard": "^18.2.0",
+    "gulp": "^3.9.1"
   }
 }

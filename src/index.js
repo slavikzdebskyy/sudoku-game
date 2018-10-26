@@ -1,6 +1,5 @@
 'use strict';
 
-
 class TurnsRegistrator {
   constructor ($board) {
     this.undoStackTurns = [];
@@ -169,8 +168,6 @@ $checkBtn.addEventListener('click', () => {
   }
   $modalWindow.classList.add('active');
 });
-
-
 
 $modalWindow.addEventListener('click', () => {
   const $content = $modalWindow.children[0];
