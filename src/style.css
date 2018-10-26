@@ -17,6 +17,7 @@ main {
           align-items: center;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
+  cursor: url(./assets/cursor_PNG74.png), auto;
 }
 
 .board {
@@ -42,10 +43,12 @@ main {
   background-color: #e6e6e6;
   color: transparent;
   text-shadow: 0 0 0 #2196f3;
-  cursor: none;
   font-size: 30px;
   font-weight: bold;
   text-align: center;
+  cursor: inherit;
+  -webkit-transition: .4s;
+  transition: .4s;
 }
 
 .board .cell:nth-of-type(3n) {
@@ -67,6 +70,18 @@ main {
   text-shadow: 0 0 0 #2196f3;
 }
 
+.board .background-row-column {
+  background-color: #ffcc66;
+}
+
+.board .background-row-column:disabled {
+  background-color: #ffcc66;
+}
+
+.board .color-identic-numbers {
+  color: #ff531a;
+}
+
 .ctrl-btn {
   border: 2px solid #000000;
   border-radius: 10px;
@@ -75,13 +90,13 @@ main {
   color: #2196F3;
   padding: 14px 20px;
   font-size: 16px;
-  cursor: pointer;
+  cursor: inherit;
   outline: none;
   -webkit-transition: .3s ease-out;
   transition: .3s ease-out;
 }
 
-.ctrl-btn:hover {
+.ctrl-btn:hover:not(:disabled) {
   background-color: #2196F3;
   color: #fff;
 }
@@ -145,14 +160,14 @@ main {
   position: relative;
   padding-left: 35px;
   margin-bottom: 12px;
-  cursor: pointer;
+  cursor: inherit;
   font-size: 18px;
 }
 
 .difficulty-container .radio-container input {
   position: absolute;
   opacity: 0;
-  cursor: pointer;
+  cursor: inherit;
 }
 
 .difficulty-container .radio-container .checkmark {

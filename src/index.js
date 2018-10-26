@@ -100,18 +100,6 @@ $boardContainer.addEventListener('keydown', ({target, keyCode}) => {
   };
 });
 
-$undoOrRedoBtnsContainer.addEventListener('click', ({target}) => {
-  switch (target.innerText) {
-    case 'Undo':
-      turnsRegistrator.undoTurn();
-      break;
-    case 'Redo':
-      turnsRegistrator.redoTurn();
-      break;
-  }
-  turnsRegistrator.disableOrEnableBtns($undoOrRedoBtnsContainer);
-});
-
 $boardContainer.addEventListener('change', ({target}) => {
   const cellIndex = parseInt(target.getAttribute('data-index'));
   if (target.value !== '' && turnsRegistrator.prevValue !== 0){   
@@ -126,8 +114,26 @@ $boardContainer.addEventListener('change', ({target}) => {
   }
 });
 
-$boardContainer.addEventListener('mouseover', ({target}) => {
-  target.focus();   
+$boardContainer.addEventListener('click', ({target}) => {
+  const cellIndex = parseInt(target.getAttribute('data-index'));
+  clearSelectedRowsAndColumns(); 
+  clearSelectIdenticNumbers();
+  if (!target.disabled){
+    selectRowAndColumn(cellIndex);
+  }  
+  selectIdenticNumbers(target.value);  
+});
+
+$undoOrRedoBtnsContainer.addEventListener('click', ({target}) => {
+  switch (target.innerText) {
+    case 'Undo':
+      turnsRegistrator.undoTurn();
+      break;
+    case 'Redo':
+      turnsRegistrator.redoTurn();
+      break;
+  }
+  turnsRegistrator.disableOrEnableBtns($undoOrRedoBtnsContainer);
 });
 
 $newGameBtn.addEventListener('click', () => {  
@@ -490,5 +496,49 @@ const newBoardArray = array => {
   }  
 };
 
+const selectRowAndColumn = cellIndex => {
+  const $cells = $boardContainer.getElementsByClassName('cell');
+  const row = parseInt(cellIndex / 9);
+  const len = $cells.length;
+  const firstIndexInRow = row * 9;
+  const lastIndexInRow = firstIndexInRow + 9;
+  for (let i = firstIndexInRow; i < lastIndexInRow; i++) {
+    if (i !== cellIndex){
+      $cells[i].classList.toggle('background-row-column');
+    }   
+  }
+  for (let i = cellIndex; i >= 0; i -= 9) {
+    $cells[i].classList.toggle('background-row-column');
+  }
+  for (let i = cellIndex; i < len; i += 9) {
+    $cells[i].classList.toggle('background-row-column');
+  }
+};
 
+const clearSelectedRowsAndColumns = () => {
+  const $cells = $boardContainer.getElementsByClassName('cell');
+  for (const el of $cells) {
+    if (el.classList.contains('background-row-column')){
+      el.classList.toggle('background-row-column');
+    }
+  }
+};
+
+const selectIdenticNumbers = number => {
+  const $cells = $boardContainer.getElementsByClassName('cell');
+  for (const el of $cells) {
+    if (el.value === number && number){
+      el.classList.toggle('color-identic-numbers');
+    }
+  }
+};
+
+const clearSelectIdenticNumbers = () => {
+  const $cells = $boardContainer.getElementsByClassName('cell');
+  for (const el of $cells) {
+    if (el.classList.contains('color-identic-numbers')){
+      el.classList.toggle('color-identic-numbers');
+    }
+  }
+}
 

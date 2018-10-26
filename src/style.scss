@@ -10,6 +10,7 @@ main {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  cursor: url(./assets/cursor_PNG74.png), auto;
 }// main
 
 .board {
@@ -28,11 +29,12 @@ main {
     border: 1px solid #000000;
     background-color: #e6e6e6;
     color: transparent;
-    text-shadow: 0 0 0 #2196f3;
-    cursor: none;
+    text-shadow: 0 0 0 #2196f3;    
     font-size: 30px;
     font-weight: bold;
     text-align: center;
+    cursor: inherit;
+    transition: .4s;
     &:nth-of-type(3n){
       border-right: 3px solid #663300;
     }
@@ -49,7 +51,16 @@ main {
       text-shadow: 0 0 0 #2196f3;   
     }
   }// .cell
-}// #field
+  .background-row-column {
+    background-color: #ffcc66;
+    &:disabled {
+      background-color: #ffcc66;        
+    }
+  }// .background-row-column
+  .color-identic-numbers {
+    color: #ff531a;
+  }// .color-identic-numbers
+}// .board
 
 .ctrl-btn {
   border: 2px solid #000000;
@@ -59,10 +70,10 @@ main {
   color: #2196F3;
   padding: 14px 20px;
   font-size: 16px;
-  cursor: pointer;
+  cursor: inherit;
   outline: none;
   transition: .3s ease-out;
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: #2196F3;
     color: #fff;
   }// .ctrl-btn:hover
@@ -103,12 +114,12 @@ main {
     position: relative;
     padding-left: 35px;
     margin-bottom: 12px;
-    cursor: pointer;
+    cursor: inherit;
     font-size: 18px;     
     input {
       position: absolute;
       opacity: 0;
-      cursor: pointer;        
+      cursor: inherit;        
     }// input
     .checkmark {
       position: absolute;
