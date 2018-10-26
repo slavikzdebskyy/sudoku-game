@@ -177,19 +177,13 @@ $modalWindow.addEventListener('click', () => {
   $modalWindow.classList.toggle('active');  
 });
 
-const copyArray = (copyArray, originalArray) => {
-  let rowHelp = [];
-  while (copyArray.length){
-    copyArray.pop();
-  }
-  originalArray.forEach(row => {
-    row.forEach(el => {
-      rowHelp.push(el);
-    });
-    copyArray.push(rowHelp);
-    rowHelp = [];
+const copyArray = (copyArray, originalArray) => {  
+  copyArray.length = 0;
+  originalArray.forEach(row => {    
+    copyArray.push(row);    
   });
 };
+
 
 const clearBoard = $board => {
   while ($board.firstChild){
@@ -198,23 +192,23 @@ const clearBoard = $board => {
 };
 
 const checkSimpleArr = array => { 
-  let check = true;
+  let isUnique = true;
   array.forEach((el, index) => {
     if (array.slice(index + 1, array.length).includes(el)){
-      check = false;
+      isUnique = false;
     }    
   });
-  return check;
+  return isUnique;
 };
 
 const checkColumnsAndRows = array => {
   let j = 0;
   let column;
-  let check = true;
+  let isUnique = true;
   const len = array.length;
   array.forEach(el => {
     if (!checkSimpleArr(el)){
-      check = false;
+      isUnique = false;
     }
   });
   while (j < len){    
@@ -222,11 +216,11 @@ const checkColumnsAndRows = array => {
       return el[j];
     });     
     if (!checkSimpleArr(column)){      
-      check = false;
+      isUnique = false;
     }
     j++;    
   }
-  return check;
+  return isUnique;
 };
 
 const checkBlocks = array => {
