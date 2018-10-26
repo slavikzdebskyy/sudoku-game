@@ -203,16 +203,15 @@ const checkSimpleArr = array => {
 
 const checkColumnsAndRows = array => {
   let j = 0;
-  let column;
   let isUnique = true;
-  const len = array.length;
-  array.forEach(el => {
-    if (!checkSimpleArr(el)){
+  const arrLength = array.length;
+  array.forEach(row => {
+    if (!checkSimpleArr(row)){
       isUnique = false;
     }
   });
-  while (j < len){    
-    column = array.map(el=>{
+  while (j < arrLength){    
+    const column = array.map(el=>{
       return el[j];
     });     
     if (!checkSimpleArr(column)){      
