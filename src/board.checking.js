@@ -1,3 +1,4 @@
+
 const checkSimpleArr = array => { 
   let isUnique = true;
   array.forEach((el, index) => {
@@ -8,7 +9,7 @@ const checkSimpleArr = array => {
   return isUnique;
 };
 
-export const checkColumnsAndRows = array => {
+const checkColumnsAndRows = array => {
   let j = 0;
   let isUnique = true;
   const arrLength = array.length;
@@ -29,15 +30,21 @@ export const checkColumnsAndRows = array => {
   return isUnique;
 };
 
-export const checkBlocks = array => {
+const checkBlocks = array => {
   const block1 = [];
   const block2 = [];
   const block3 = [];  
   let isUnique = true;
   array.forEach(el => {
-    block1.push(el.slice(0,3));
-    block2.push(el.slice(3,6));
-    block3.push(el.slice(6,9));
+    el.slice(0,3).forEach(elem => {
+      block1.push(elem);
+    });
+    el.slice(3,6).forEach(elem => {
+      block2.push(elem);
+    });
+    el.slice(6,9).forEach(elem => {
+      block3.push(elem);
+    });    
     if (block1.length === 9){
       if (!checkSimpleArr(block1)) {
         isUnique = false;
@@ -47,13 +54,17 @@ export const checkBlocks = array => {
       }
       if (!checkSimpleArr(block3)) {
         isUnique = false;
-      }      
+      }         
       block1.length = 0;
       block2.length = 0;
-      block3.length = 0;
+      block3.length = 0;      
     }
   });
   return isUnique;
 };
 
-
+export {
+  checkBlocks,
+  checkColumnsAndRows,
+  checkSimpleArr
+};

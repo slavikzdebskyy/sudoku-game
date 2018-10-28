@@ -1,6 +1,6 @@
 'use strict';
 
-import * as Board_Check from './board.checking.js';
+import {checkBlocks, checkColumnsAndRows} from './board.checking.js';
 import {clearBoard, getBoard, copyArray, rotateRows, 
   rotateColumns, rotateBlockOfRows, rotateBlockOfColumns, 
   transportingBoard, getRandomBetweenMinAndMax} from './board.greating.js';
@@ -102,7 +102,7 @@ $checkBtn.addEventListener('click', () => {
   const filledBoard = getBoard('cell', $boardContainer);
   const $mssgContent = $modalWindow.children[0];
   const $mssgText = document.getElementById('mssg-text');  
-  if (Board_Check.checkColumnsAndRows(filledBoard) && Board_Check.checkBlocks(filledBoard)){
+  if (checkColumnsAndRows(filledBoard) && checkBlocks(filledBoard)){
     $mssgText.innerText = 'Congratulation !';
     turnsRegistrator.clearRedoStackTurns();
     turnsRegistrator.clearUndoStackTurns();
@@ -183,11 +183,11 @@ const newBoardArray = array => {
       difficulty = 70;
       break;
   }
-  // for (let k = 0; k <= difficulty; k++){
-  //   i = getRandomBetweenMinAndMax(0, 8);
-  //   j = getRandomBetweenMinAndMax(0, 8);
-  //   array[i][j] = 0;
-  // }  
+  for (let k = 0; k <= difficulty; k++){
+    i = getRandomBetweenMinAndMax(0, 8);
+    j = getRandomBetweenMinAndMax(0, 8);
+    array[i][j] = 0;
+  }  
 };
 
 const dispatchEventCheck = () => {
@@ -204,6 +204,7 @@ const dispatchEventCheck = () => {
     $checkBtn.dispatchEvent(event);
   }  
 };
+
 
 
 
