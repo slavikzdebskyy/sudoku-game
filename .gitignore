@@ -4,3 +4,4 @@ node_modules
 questions.txt
 gulpfile.js
 dist
+node-server-heroku/dist
