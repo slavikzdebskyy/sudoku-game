@@ -5,3 +5,4 @@ questions.txt
 gulpfile.js
 dist
 node-server-heroku/dist
+node-server-heroku/.travis.yml
