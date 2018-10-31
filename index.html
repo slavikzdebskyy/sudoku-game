@@ -5,13 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>S U D O K U</title>
-  <link rel="stylesheet" href="src/style.css">
+  <link rel="stylesheet" href="src/scss.css/style.css">
 </head>
 <body>
   <main>    
     <div>
       <form id="board-container" class="board">   
       </form>
+      <div class="timer">
+        <span id="timer">          
+        </span>
+      </div>
       <div id="difficulty" class="difficulty-container">
         <label class="radio-container">Easy
           <input type="radio" checked="checked" name="difficult" value="0">
@@ -25,7 +29,7 @@
           <input type="radio" name="difficult" value="2">
           <span class="checkmark"></span>
         </label>
-      </div>
+      </div>      
     </div>   
     <div class="controls">
       <div id="undo-redo-btns" class="undo-redo-btns">
@@ -43,5 +47,6 @@
     </div>  
   </main>
 </body>
-<script type="module" src="src/index.js"></script>
+<script src="src/js/easytimer.js"></script>
+<script type="module" src="src/js/index.js"></script>
 </html>

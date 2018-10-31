@@ -5,13 +5,14 @@
 
 ## Game Sudoku
 
-[Sudoku DEMO](https://slavikzdebskyy.github.io/sudoku-game.github.io)  
+[Play Sudoku](https://zd-sudoku-game.herokuapp.com)  
 Sudoku is a puzzle that needs little introduction. The object is to put a digit from 1 to 9 in each cell of the grid so that every row, column, and bold block contains each digit once. The puzzle contains 9 rows and columns.   
 
 ## Tech stack
 
 * javascript 
 * html/css
+* [easytimer](https://github.com/albert-gonzalez/easytimer.js)
 
 ## Mockups
 

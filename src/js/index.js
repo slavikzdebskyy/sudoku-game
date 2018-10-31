@@ -14,8 +14,10 @@ const $checkBtn = document.getElementById('check-btn');
 const $newGameBtn = document.getElementById('new-game-btn');
 const $restartBtn = document.getElementById('restart-btn'); 
 const $undoOrRedoBtnsContainer = document.getElementById('undo-redo-btns');
+const $timerSpan = document.getElementById('timer');
 
 const turnsRegistrator = new TurnsRegistrator($boardContainer);
+const time = new Timer();
 
 const copyArrayForRestart = [];         
 const boardArray = [];                            
@@ -30,6 +32,10 @@ const shemeArray = [
   [6,7,8,9,1,2,3,4,5],
   [9,1,2,3,4,5,6,7,8]  
 ];
+
+time.addEventListener('secondsUpdated', () => {
+  $timerSpan.innerText = time.getTimeValues().toString();
+});
 
 $boardContainer.addEventListener('keydown', ({target, keyCode}) => {
   turnsRegistrator.prevValue = target.value;
@@ -86,7 +92,8 @@ $newGameBtn.addEventListener('click', () => {
   createBoard(boardArray);
   turnsRegistrator.clearRedoStackTurns();
   turnsRegistrator.clearUndoStackTurns();
-  turnsRegistrator.disableOrEnableBtns($undoOrRedoBtnsContainer);  
+  turnsRegistrator.disableOrEnableBtns($undoOrRedoBtnsContainer);
+  time.start();  
 });
 
 $restartBtn.addEventListener('click', ()=> {

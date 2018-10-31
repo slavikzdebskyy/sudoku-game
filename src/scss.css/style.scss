@@ -12,10 +12,9 @@ main {
   height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
   flex-wrap: wrap;
   padding-top: 25px;
-  cursor: url(./cursors/cursor-3-512.png), auto;
+  cursor: url(../cursors/Cursor-PNG-Image-99791-blue.png), auto;
 }// main
 
 .board {
@@ -98,6 +97,21 @@ main {
   flex-direction: column;   
 }// .controls
 
+.timer {
+  width: 100%;
+  text-align: center;
+  min-height: 25px;
+  padding: 5px;
+  span {
+    font-size: 19px;
+    font-weight: 600;
+    font-family: sans-serif;
+    color: #2196f3;
+    width: 100%;
+    text-align: center;
+  }
+}// .timer
+
 .new-game-btn:hover,
 .restart-btn:hover {
   color: red;
@@ -114,7 +128,7 @@ main {
 .difficulty-container {
   display: flex;
   justify-content: space-around;
-  padding-top: 10px;
+  padding-top: 10px;  
   .radio-container {
     display: block;
     position: relative;
@@ -210,6 +224,8 @@ main {
 .active {
   display: block;
 }// .active
+
+
 
 
 

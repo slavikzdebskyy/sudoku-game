@@ -12,13 +12,10 @@ main {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   padding-top: 25px;
-  cursor: url(./cursors/cursor-3-512.png), auto;
+  cursor: url(../cursors/Cursor-PNG-Image-99791-blue.png), auto;
 }
 
 .board {
@@ -122,6 +119,22 @@ main {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+}
+
+.timer {
+  width: 100%;
+  text-align: center;
+  min-height: 25px;
+  padding: 5px;
+}
+
+.timer span {
+  font-size: 19px;
+  font-weight: 600;
+  font-family: sans-serif;
+  color: #2196f3;
+  width: 100%;
+  text-align: center;
 }
 
 .new-game-btn:hover,
