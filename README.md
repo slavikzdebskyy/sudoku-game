@@ -20,10 +20,11 @@ Sudoku is a puzzle that needs little introduction. The object is to put a digit 
 
 ## Contribution guide
 
-[Please check our guide](link-to-contribution-guide)
+[Please check guide](https://github.com/slavikzdebskyy/sudoku-game/blob/master/.github/CONTRIBUTION%20GUIDE.md)
 
-## TODO
+## Issue & Pull Request templates
 
-* item 1
-* item 2
-* item 3
+  * [Issue template](https://github.com/slavikzdebskyy/sudoku-game/blob/master/.github/ISSUE_TEMPLATE.md)
+  * [Pull Request template](https://github.com/slavikzdebskyy/sudoku-game/blob/master/.github/PULL_REQUEST_TEMPLATE.md)
+
+
