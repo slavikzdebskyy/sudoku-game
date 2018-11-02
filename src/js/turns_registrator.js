@@ -1,4 +1,4 @@
-class TurnsRegistrator {
+export default class TurnsRegistrator {
   constructor ($board) {
     this.undoStackTurns = [];
     this.redoStackTurns = [];
@@ -59,5 +59,3 @@ class TurnsRegistrator {
   }
   
 }
-
-export default TurnsRegistrator;

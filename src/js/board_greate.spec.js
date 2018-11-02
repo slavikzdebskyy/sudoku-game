@@ -1,4 +1,4 @@
-import {getRandomBetweenMinAndMax} from './board.greating';
+import {getRandomBetweenMinAndMax} from './board_greate';
 
 describe('getRandomBetweenMinAndMax(min, max)=>>', () => {
   it('That function generetes and returns number between 10 and 15', () => {

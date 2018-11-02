@@ -1,4 +1,4 @@
-import {checkSimpleArr, checkBlocks, checkColumnsAndRows} from './board.checking';
+import {checkSimpleArr, checkBlocks, checkColumnsAndRows} from './board_check';
 
 const testArray = [   
   [4,5,6,7,8,9,1,2,3],

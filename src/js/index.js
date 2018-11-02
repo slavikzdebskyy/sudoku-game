@@ -1,11 +1,11 @@
 'use strict';
 
-import {checkBlocks, checkColumnsAndRows} from './board.checking.js';
-import {clearBoard, getBoard, copyArray, rotateRows, 
-  rotateColumns, rotateBlockOfRows, rotateBlockOfColumns, 
-  transportingBoard, getRandomBetweenMinAndMax} from './board.greating.js';
-import {selectRowAndColumn, selectIdenticNumbers} from './board.selected.js';
-import TurnsRegistrator from './turns.registrator.js';
+import {checkBlocks, checkColumnsAndRows} from './board_check.js';
+import {clearBoard, getBoard, copyArray, rotateRows, rotateColumns, rotateBlockOfRows, 
+  rotateBlockOfColumns, transportingBoard, getRandomBetweenMinAndMax} from './board_greate.js';
+import {selectRowAndColumn, selectIdenticNumbers} from './board_select.js';
+import TurnsRegistrator from './turns_registrator.js';
+import Timer from './timer.js';
 
 const $boardContainer = document.getElementById('board-container');
 const $modalWindow = document.getElementById('modal-check-window');
@@ -17,8 +17,7 @@ const $undoOrRedoBtnsContainer = document.getElementById('undo-redo-btns');
 const $timerSpan = document.getElementById('timer');
 
 const turnsRegistrator = new TurnsRegistrator($boardContainer);
-const time = new Timer();
-
+const timer = new Timer();
 const copyArrayForRestart = [];         
 const boardArray = [];                            
 const shemeArray = [                              
@@ -32,10 +31,6 @@ const shemeArray = [
   [6,7,8,9,1,2,3,4,5],
   [9,1,2,3,4,5,6,7,8]  
 ];
-
-time.addEventListener('secondsUpdated', () => {
-  $timerSpan.innerText = time.getTimeValues().toString();
-});
 
 $boardContainer.addEventListener('keydown', ({target, keyCode}) => {
   turnsRegistrator.prevValue = target.value;
@@ -93,16 +88,19 @@ $newGameBtn.addEventListener('click', () => {
   turnsRegistrator.clearRedoStackTurns();
   turnsRegistrator.clearUndoStackTurns();
   turnsRegistrator.disableOrEnableBtns($undoOrRedoBtnsContainer);
-  time.start();  
+  timer.start($timerSpan);  
 });
 
 $restartBtn.addEventListener('click', ()=> {
+  timer.stop();
   clearBoard($boardContainer);
   copyArray(boardArray, copyArrayForRestart);
   createBoard(boardArray);
   turnsRegistrator.clearRedoStackTurns();
   turnsRegistrator.clearUndoStackTurns();
   turnsRegistrator.disableOrEnableBtns($undoOrRedoBtnsContainer);
+  
+  timer.start($timerSpan);
 });
 
 $checkBtn.addEventListener('click', () => {
