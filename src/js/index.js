@@ -1,36 +1,27 @@
 'use strict';
 
-import {checkBlocks, checkColumnsAndRows} from './board_check.js';
-import {clearBoard, getBoard, copyArray, rotateRows, rotateColumns, rotateBlockOfRows, 
-  rotateBlockOfColumns, transportingBoard, getRandomBetweenMinAndMax} from './board_greate.js';
-import {selectRowAndColumn, selectIdenticNumbers} from './board_select.js';
+import * as check from './board_check.js';
+import * as greateBoard from './board_greate.js';
 import TurnsRegistrator from './turns_registrator.js';
 import Timer from './timer.js';
+import { selectRowAndColumn, selectIdenticNumbers } from './board_select.js';
+import { shemeArray } from './sheme_array.js';
 
 const $boardContainer = document.getElementById('board-container');
 const $modalWindow = document.getElementById('modal-check-window');
+const $difficultyContainer = document.getElementById('difficulty');
+const $undoOrRedoBtnsContainer = document.getElementById('undo-redo-btns');
 
 const $checkBtn = document.getElementById('check-btn'); 
 const $newGameBtn = document.getElementById('new-game-btn');
 const $restartBtn = document.getElementById('restart-btn'); 
-const $undoOrRedoBtnsContainer = document.getElementById('undo-redo-btns');
+
 const $timerSpan = document.getElementById('timer');
 
 const turnsRegistrator = new TurnsRegistrator($boardContainer);
 const timer = new Timer();
 const copyArrayForRestart = [];         
-const boardArray = [];                            
-const shemeArray = [                              
-  [1,2,3,4,5,6,7,8,9],
-  [4,5,6,7,8,9,1,2,3],
-  [7,8,9,1,2,3,4,5,6],
-  [2,3,4,5,6,7,8,9,1],
-  [5,6,7,8,9,1,2,3,4],
-  [8,9,1,2,3,4,5,6,7],
-  [3,4,5,6,7,8,9,1,2],
-  [6,7,8,9,1,2,3,4,5],
-  [9,1,2,3,4,5,6,7,8]  
-];
+const boardArray = [];
 
 $boardContainer.addEventListener('keydown', ({target, keyCode}) => {
   turnsRegistrator.prevValue = target.value;
@@ -80,11 +71,11 @@ $undoOrRedoBtnsContainer.addEventListener('click', ({target}) => {
 });
 
 $newGameBtn.addEventListener('click', () => {  
-  clearBoard($boardContainer);
-  copyArray(boardArray, shemeArray);
-  newBoardArray(boardArray);
-  copyArray(copyArrayForRestart, boardArray);
-  createBoard(boardArray);
+  greateBoard.clearBoard($boardContainer);
+  greateBoard.copyArray(boardArray, shemeArray);
+  greateBoard.newBoardArray(boardArray, $difficultyContainer);
+  greateBoard.copyArray(copyArrayForRestart, boardArray);
+  createBoard(boardArray, 'cell', 'border-bottom');
   turnsRegistrator.clearRedoStackTurns();
   turnsRegistrator.clearUndoStackTurns();
   turnsRegistrator.disableOrEnableBtns($undoOrRedoBtnsContainer);
@@ -93,9 +84,9 @@ $newGameBtn.addEventListener('click', () => {
 
 $restartBtn.addEventListener('click', ()=> {
   timer.stop();
-  clearBoard($boardContainer);
-  copyArray(boardArray, copyArrayForRestart);
-  createBoard(boardArray);
+  greateBoard.clearBoard($boardContainer);
+  greateBoard.copyArray(boardArray, copyArrayForRestart);
+  createBoard(boardArray, 'cell', 'border-bottom');
   turnsRegistrator.clearRedoStackTurns();
   turnsRegistrator.clearUndoStackTurns();
   turnsRegistrator.disableOrEnableBtns($undoOrRedoBtnsContainer);
@@ -104,10 +95,10 @@ $restartBtn.addEventListener('click', ()=> {
 });
 
 $checkBtn.addEventListener('click', () => {
-  const filledBoard = getBoard('cell', $boardContainer);
+  const filledBoard = greateBoard.getBoard('cell', $boardContainer);
   const $mssgContent = $modalWindow.children[0];
   const $mssgText = document.getElementById('mssg-text');  
-  if (checkColumnsAndRows(filledBoard) && checkBlocks(filledBoard)){
+  if (check.checkColumnsAndRows(filledBoard) && check.checkBlocks(filledBoard)){
     $mssgText.innerText = 'Congratulation !';
     turnsRegistrator.clearRedoStackTurns();
     turnsRegistrator.clearUndoStackTurns();
@@ -127,15 +118,15 @@ $modalWindow.addEventListener('click', () => {
   $modalWindow.classList.toggle('active');  
 });
 
-const createBoard = array => {
+const createBoard = (array, cellClassName, cellBorderClassName) => {
   array.forEach((row, indexRow) => {
     row.forEach((elInRow, indexColunm) => {
       const input = document.createElement('input');
       input.setAttribute('data-index', indexRow * 9 + indexColunm);
       if (indexRow === 2 || indexRow === 5){
-        input.className = 'cell border-bottom';
+        input.className = cellClassName + ' ' + cellBorderClassName;
       } else {
-        input.className = 'cell';
+        input.className = cellClassName;
       }
       if (elInRow){
         input.disabled = true;
@@ -144,55 +135,6 @@ const createBoard = array => {
       $boardContainer.appendChild(input);
     });
   });  
-};
-
-const newBoardArray = array => {
-  const $difficutlyCont = document.getElementById('difficulty');
-  const $difficutlyVal = $difficutlyCont.getElementsByTagName('input');
-  let difficulty;
-  let i;
-  let j;
-  let randomCount;
-  randomCount = Math.floor((Math.random() * 9));
-  transportingBoard(array);  
-  while (randomCount >= 0){
-    i = getRandomBetweenMinAndMax(6, 8);
-    j = getRandomBetweenMinAndMax(6, 8);
-    rotateColumns(array, i, j);
-    rotateRows(array, i, j);
-    i = getRandomBetweenMinAndMax(3, 5);
-    j = getRandomBetweenMinAndMax(3, 5);
-    rotateColumns(array, i, j);
-    rotateRows(array, i, j);
-    i = getRandomBetweenMinAndMax(0, 2);
-    j = getRandomBetweenMinAndMax(0, 2);
-    rotateColumns(array, i, j);
-    rotateRows(array, i, j);
-    rotateBlockOfColumns(array, i, j);
-    rotateBlockOfRows(array, i, j);
-    randomCount--;
-  }
-  for (const el of $difficutlyVal) {
-    if (el.checked){
-      difficulty = parseInt(el.value);
-    }
-  }
-  switch (difficulty) {
-    case 0:
-      difficulty = 55;      
-      break;
-    case 1:
-      difficulty = 65;
-      break;
-    case 2:
-      difficulty = 70;
-      break;
-  }
-  for (let k = 0; k <= difficulty; k++){
-    i = getRandomBetweenMinAndMax(0, 8);
-    j = getRandomBetweenMinAndMax(0, 8);
-    array[i][j] = 0;
-  }  
 };
 
 const dispatchEventCheck = () => {

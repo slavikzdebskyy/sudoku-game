@@ -1,5 +1,4 @@
-
-const checkSimpleArr = array => { 
+export const  checkSimpleArr = array => { 
   let isUnique = true;
   array.forEach((el, index) => {
     if (array.slice(index + 1, array.length).includes(el)){
@@ -9,7 +8,7 @@ const checkSimpleArr = array => {
   return isUnique;
 };
 
-const checkColumnsAndRows = array => {
+export const  checkColumnsAndRows = array => {
   let j = 0;
   let isUnique = true;
   const arrLength = array.length;
@@ -30,7 +29,7 @@ const checkColumnsAndRows = array => {
   return isUnique;
 };
 
-const checkBlocks = array => {
+export const checkBlocks = array => {
   const block1 = [];
   const block2 = [];
   const block3 = [];  
@@ -63,8 +62,5 @@ const checkBlocks = array => {
   return isUnique;
 };
 
-export {
-  checkBlocks,
-  checkColumnsAndRows,
-  checkSimpleArr
-};
+
+

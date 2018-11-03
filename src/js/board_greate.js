@@ -179,6 +179,53 @@ export const getRandomBetweenMinAndMax = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+export const newBoardArray = (array, $difficultyContainer) => {
+  const $difficutlyVal = $difficultyContainer.getElementsByTagName('input');
+  let difficulty;
+  let i;
+  let j;
+  let randomCount;
+  randomCount = Math.floor((Math.random() * 9));
+  transportingBoard(array);  
+  while (randomCount >= 0){
+    i = getRandomBetweenMinAndMax(6, 8);
+    j = getRandomBetweenMinAndMax(6, 8);
+    rotateColumns(array, i, j);
+    rotateRows(array, i, j);
+    i = getRandomBetweenMinAndMax(3, 5);
+    j = getRandomBetweenMinAndMax(3, 5);
+    rotateColumns(array, i, j);
+    rotateRows(array, i, j);
+    i = getRandomBetweenMinAndMax(0, 2);
+    j = getRandomBetweenMinAndMax(0, 2);
+    rotateColumns(array, i, j);
+    rotateRows(array, i, j);
+    rotateBlockOfColumns(array, i, j);
+    rotateBlockOfRows(array, i, j);
+    randomCount--;
+  }
+  for (const el of $difficutlyVal) {
+    if (el.checked){
+      difficulty = parseInt(el.value);
+    }
+  }
+  switch (difficulty) {
+    case 0:
+      difficulty = 55;      
+      break;
+    case 1:
+      difficulty = 65;
+      break;
+    case 2:
+      difficulty = 70;
+      break;
+  }
+  for (let k = 0; k <= difficulty; k++){
+    i = getRandomBetweenMinAndMax(0, 8);
+    j = getRandomBetweenMinAndMax(0, 8);
+    array[i][j] = 0;
+  }  
+};
 
 
 
