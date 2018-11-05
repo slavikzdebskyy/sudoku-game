@@ -1,25 +1,12 @@
 'use strict';
 
-
-// const TurnsRegistrator = require('./turns_registrator.js');
-// const BoardArray = require('./work_array.js');
-// const Check = require('./js/checking');
-// const Board = require('./board.js');
-// const Timer = require('./timer.js');
-// const Marking = require('./marking.js');
-// const shemeArray = require('./sheme_array.js');
- 
-
-
-
-
-import TurnsRegistrator from './js/turns_registrator.js';
-import BoardArray from './js/board_array.js';
-import Check from './js/checking.js';
-import Board from './js/board.js';
-import Timer from './js/timer.js';
-import Marking from './js/marking.js';
-import { shemeArray } from './js/sheme_array.js';
+import TurnsRegistrator from './turns_registrator.js';
+import BoardArray from './board_array.js';
+import Check from './checking.js';
+import Board from './board.js';
+import Timer from './timer.js';
+import Marking from './marking.js';
+import { shemeArray } from './sheme_array.js';
 
 const $boardContainer = document.getElementById('board-container');
 const $modalWindow = document.getElementById('modal-check-window');

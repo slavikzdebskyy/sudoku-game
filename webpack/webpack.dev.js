@@ -5,11 +5,11 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
   mode: 'development',
   entry: [
-    './src/index.js'
+    './src/js/index.js'
   ],
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, '../dist')
+    path: path.resolve(__dirname, '../node-server-heroku/dist')
   },
   devtool: 'cheap-module-eval-source-map',
   module: {
@@ -49,14 +49,13 @@ module.exports = {
     }),
     new CopyWebpackPlugin([
       {
-        from: '*.css',
-        to: '../dist',
-        toType: 'file'
+        from: './src/css/style.css',
+        to: 'src/css'
       },
     ])
   ],
   devServer: {
-    contentBase: path.join(__dirname, '../'),
+    contentBase: path.join(__dirname, '../node-server-heroku'),
     compress: true,
     historyApiFallback: true
   }

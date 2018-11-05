@@ -1,14 +1,11 @@
 {
-  "name": "project-scaffoldings",
+  "name": "sudoku-game",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "jest": {
-    "verbose": true
-  },
   "scripts": {
     "start": "webpack-dev-server --config ./webpack/webpack.dev.js --open",
-    "build": "webpack",
+    "build": "webpack --config ./webpack/webpack.dev.js",
     "test": "jest",
     "lint": "eslint ./src",
     "lint:watch": "esw --watch",
@@ -18,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/front-camp-2018/project-scaffoldings.git"
+    "url": "git+https://github.com/slavikzdebskyy/sudoku-game"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/front-camp-2018/project-scaffoldings/issues"
+    "url": "https://github.com/slavikzdebskyy/sudoku-game/issues"
   },
-  "homepage": "https://github.com/front-camp-2018/project-scaffoldings#readme",
+  "homepage": "https://github.com/slavikzdebskyy/sudoku-game#readme",
   "devDependencies": {
     "copy-webpack-plugin": "^4.6.0",
     "css-loader": "^1.0.0",
