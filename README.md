@@ -28,4 +28,4 @@ Sudoku is a puzzle that needs little introduction. The object is to put a digit 
 
 ## Gameplay
 
-![alt text](https://github.com/slavikzdebskyy/sudoku-game/blob/master/.github/gameplay.jpg)
+![alt text](https://github.com/slavikzdebskyy/sudoku-game/blob/master/.github/gameplay.jpg=800x800)
