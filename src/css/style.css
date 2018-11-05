@@ -1,21 +1,48 @@
 body {
   margin: 0;
+  background-color: #334d4d;
+}
+
+h1 {
   background-color: #e6e6e6;
+  margin: 0;
+  width: 100%;
+  padding: 20px 0 20px;
+  text-align: center;
+  font-family: sans-serif;
 }
 
 main {
   width: 100%;
   height: 100%;
+  position: fixed;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   padding-top: 25px;
-  cursor: url(../cursors/Cursor-PNG-Image-99791-blue.png), auto;
+  cursor: default;
+}
+
+@media only screen and (max-width: 600px) {
+  .undo-redo-btns {
+    height: 50px;
+    width: 450px;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+  }
+  main {
+    padding-top: 5px;
+  }
 }
 
 .board {
@@ -31,43 +58,6 @@ main {
   border-radius: 5px;
 }
 
-.board .cell {
-  outline: none;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  width: 50px;
-  height: 50px;
-  border: 1px solid #000000;
-  background-color: #e6e6e6;
-  color: transparent;
-  text-shadow: 0 0 0 #2196f3;
-  font-size: 30px;
-  font-weight: bold;
-  text-align: center;
-  cursor: inherit;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-.board .cell:nth-of-type(3n) {
-  border-right: 3px solid #663300;
-}
-
-.board .cell.border-bottom {
-  border-bottom: 3px solid #663300;
-}
-
-.board .cell:hover {
-  border: 3px solid #248f8f;
-  border-radius: 5px;
-}
-
-.board .cell:disabled {
-  background-color: #cccccc;
-  outline: none;
-  text-shadow: 0 0 0 #2196f3;
-}
-
 .board .background-row-column {
   background-color: #ffcc66;
 }
@@ -80,32 +70,44 @@ main {
   color: #ff531a;
 }
 
-.ctrl-btn {
-  border: 2px solid #000000;
-  border-radius: 10px;
-  background-color: #fff;
-  border-color: #2196F3;
-  color: #2196F3;
-  width: 100px;
-  height: 40px;
-  font-size: 16px;
-  cursor: inherit;
+.cell {
   outline: none;
-  -webkit-transition: .3s ease-out;
-  transition: .3s ease-out;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 50px;
+  height: 50px;
+  border: 1px solid #000;
+  background-color: #e6e6e6;
+  color: transparent;
+  text-shadow: 0 0 0 #2196f3;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  cursor: inherit;
+  -webkit-transition: .4s;
+  transition: .4s;
 }
 
-.ctrl-btn:hover:not(:disabled) {
-  background-color: #2196F3;
-  color: #fff;
+.cell:nth-of-type(3n) {
+  border-right: 3px solid #663300;
 }
 
-.ctrl-btn:disabled {
-  opacity: .5;
+.cell.border-bottom {
+  border-bottom: 3px solid #663300;
+}
+
+.cell:hover {
+  border: 3px solid #2196f3;
+  border-radius: 5px;
+}
+
+.cell:disabled {
+  background-color: #cccc;
+  outline: none;
+  text-shadow: 0 0 0 #2196f3;
 }
 
 .controls {
-  height: 450px;
   padding-left: 5px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -135,27 +137,6 @@ main {
   color: #2196f3;
   width: 100%;
   text-align: center;
-}
-
-.new-game-btn:hover,
-.restart-btn:hover {
-  color: red;
-}
-
-.undo-redo-btns {
-  height: 112.5px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
 }
 
 .difficulty-container {
@@ -188,7 +169,7 @@ main {
   left: 0;
   height: 25px;
   width: 25px;
-  background-color: #eee;
+  background-color: #e6e6e6;
   border-radius: 50%;
 }
 
@@ -199,7 +180,7 @@ main {
 }
 
 .difficulty-container .radio-container:hover input ~ .checkmark {
-  background-color: #ccc;
+  background-color: #e6e6e6;
 }
 
 .difficulty-container .radio-container input:checked ~ .checkmark {
@@ -215,7 +196,7 @@ main {
   top: 5px;
   width: 5px;
   height: 10px;
-  border: solid white;
+  border: solid #e6e6e6;
   border-width: 0 3px 3px 0;
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
@@ -233,7 +214,7 @@ main {
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-.message .message-content {
+.message-content {
   position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -251,7 +232,7 @@ main {
   background-color: #5cb85c;
   margin: auto;
   padding: 0;
-  border: 1px solid #fff;
+  border: 1px solid #e6e6e6;
   border-radius: 10px;
   max-width: 500px;
   height: 200px;
@@ -259,23 +240,6 @@ main {
   -webkit-animation-duration: 1s;
   animation-name: messageAnimate;
   animation-duration: 1s;
-}
-
-.message .message-content h1 {
-  background-color: #fff;
-  margin: 0;
-  width: 100%;
-  padding: 20px 0 20px;
-  text-align: center;
-  font-family: sans-serif;
-}
-
-.message .warning {
-  background-color: #ff0000;
-}
-
-.active {
-  display: block;
 }
 
 @-webkit-keyframes messageAnimate {
@@ -305,7 +269,7 @@ main {
     width: 270px;
     height: 270px;
   }
-  .board .cell {
+  .cell {
     width: 30px;
     height: 30px;
     font-size: 24px;
@@ -320,13 +284,69 @@ main {
     -ms-flex-wrap: wrap;
         flex-wrap: wrap;
   }
-  .undo-redo-btns {
+}
+
+.undo-redo-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+@media only screen and (max-width: 600px) {
+  .undo-redo-container {
     height: 50px;
-    width: 270px;
+    width: 450px;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
         -ms-flex-direction: row;
             flex-direction: row;
   }
+}
+
+.warning {
+  background-color: #ff0000;
+}
+
+.active {
+  display: block;
+}
+
+.ctrl-btn {
+  border: 2px solid #000;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  background-color: #e6e6e6;
+  border-color: #2196f3;
+  color: #2196f3;
+  width: 100px;
+  height: 40px;
+  font-size: 16px;
+  cursor: inherit;
+  outline: none;
+  -webkit-transition: .3s ease-out;
+  transition: .3s ease-out;
+}
+
+.ctrl-btn:hover:not(:disabled) {
+  background-color: #2196f3;
+  color: #e6e6e6;
+}
+
+.ctrl-btn:disabled {
+  opacity: .5;
+}
+
+.new-game-btn:hover,
+.restart-btn:hover {
+  color: #ff0000;
 }
 /*# sourceMappingURL=style.css.map */

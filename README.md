@@ -10,9 +10,8 @@ Sudoku is a puzzle that needs little introduction. The object is to put a digit 
 
 ## Tech stack
 
-* javascript 
-* html/css
-* [easytimer](https://github.com/albert-gonzalez/easytimer.js)
+* JavaScript 
+* HTML/SCSS
 
 ## Mockups
 
@@ -27,4 +26,6 @@ Sudoku is a puzzle that needs little introduction. The object is to put a digit 
   * [Issue template](https://github.com/slavikzdebskyy/sudoku-game/blob/master/.github/ISSUE_TEMPLATE.md)
   * [Pull Request template](https://github.com/slavikzdebskyy/sudoku-game/blob/master/.github/PULL_REQUEST_TEMPLATE.md)
 
+## Gameplay
 
+(https://github.com/slavikzdebskyy/sudoku-game/blob/master/.github/gameplay.jpg)

@@ -53,6 +53,8 @@ export default class Timer {
     return this.hours.toString() + ':' + min + ':' + sec;
   }
 }
-   
+
+// module.exports = Timer;
+
    
    

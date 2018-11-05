@@ -40,7 +40,6 @@ export default class TurnsRegistrator {
     const lastIndex = this.undoStackTurns.length - 1;
     const lastTurn = this.undoStackTurns[lastIndex];
     const currentValue = this.$cells[lastTurn.cellIndex].value;
-
     this.$cells[lastTurn.cellIndex].value = lastTurn.cellValue;
     lastTurn.cellValue = currentValue;
     this.redoStackTurns.push(lastTurn);
@@ -50,12 +49,12 @@ export default class TurnsRegistrator {
   redoTurn ()  { 
     const lastIndex = this.redoStackTurns.length - 1;
     const lastTurn = this.redoStackTurns[lastIndex];
-    const currentValue = this.$cells[lastTurn.cellIndex].value;
-
+    const currentValue = this.$cells[lastTurn.cellIndex].value;    
     this.$cells[lastTurn.cellIndex].value = lastTurn.cellValue;
     lastTurn.cellValue = currentValue;
     this.undoStackTurns.push(lastTurn);
-    this.redoStackTurns.pop();
-  }
-  
+    this.redoStackTurns.pop();   
+  }  
 }
+
+// module.exports = TurnsRegistrator;

@@ -1,0 +1,34 @@
+.warning {
+  background-color: map-get($colors, messageErr);
+}
+.active {
+  display: block;
+}
+
+.ctrl-btn {
+  border: 2px solid map-get($colors, blackC);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  background-color: map-get($colors, whiteC);
+  border-color: map-get($colors, numbers);
+  color: map-get($colors, numbers);
+  width: 100px;
+  height: 40px;
+  font-size: 16px;
+  cursor: inherit;
+  outline: none;
+  transition: .3s ease-out;
+  &:hover:not(:disabled) {
+    background-color: map-get($colors, numbers);
+    color: map-get($colors, whiteC);
+  }
+  &:disabled {
+    opacity: .5;
+  }   
+}
+
+.new-game-btn:hover,
+.restart-btn:hover {
+  color: map-get($colors, messageErr);
+}
+
