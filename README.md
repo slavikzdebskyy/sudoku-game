@@ -1,12 +1,15 @@
-# ELEKS Front-Camp 2018
+## S U D O K U game
 
 * Course curator - [Volodymyr Shevchuk](https://github.com/dosandk)
 * Front-camp [facebook](https://www.facebook.com/groups/270300106928894)
 
-## Game Sudoku
-
-[Play Sudoku](https://zd-sudoku-game.herokuapp.com)  
+## About game
+ 
 Sudoku is a puzzle that needs little introduction. The object is to put a digit from 1 to 9 in each cell of the grid so that every row, column, and bold block contains each digit once. The puzzle contains 9 rows and columns.   
+
+## Play Sudoku
+
+* [Play Sudoku](https://zd-sudoku-game.herokuapp.com) 
 
 ## Tech stack
 
@@ -28,4 +31,4 @@ Sudoku is a puzzle that needs little introduction. The object is to put a digit 
 
 ## Gameplay
 
-![gameplay.jpg](https://github.com/slavikzdebskyy/sudoku-game/blob/master/.github/gameplay.jpg){:height="800px" width="800px"}
+![gameplay.jpg](https://github.com/slavikzdebskyy/sudoku-game/blob/master/.github/gameplay.jpg)
