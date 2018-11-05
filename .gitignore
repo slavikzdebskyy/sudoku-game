@@ -1,6 +1,5 @@
 .idea
 node_modules
 .vscode
-gulpfile.js
 dist
 node-server-heroku/dist
