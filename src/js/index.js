@@ -6,7 +6,7 @@ import Check from './checking.js';
 import Board from './board.js';
 import Timer from './timer.js';
 import Marking from './marking.js';
-import { shemeArray } from './sheme_array.js';
+import { shemeArray } from './sheme_array.js';  
 
 const $boardContainer = document.getElementById('board-container');
 const $modalWindow = document.getElementById('modal-check-window');
@@ -105,8 +105,7 @@ $restartBtn.addEventListener('click', ()=> {
   timer.start($timerSpan);
 });
 
-$checkBtn.addEventListener('click', () => {
-  
+$checkBtn.addEventListener('click', () => {  
   const filledBoard = board.getBoard('cell', $boardContainer);  
   const $mssgContent = $modalWindow.children[0];  
   const $mssgText = document.getElementById('mssg-text');  

@@ -1,7 +1,7 @@
 {
   "name": "sudoku-game",
   "version": "1.0.0",
-  "description": "",
+  "description": "App Sudoku Game",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config ./webpack/webpack.dev.js --open",
