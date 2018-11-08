@@ -40,4 +40,3 @@ export default class Marking {
     }
   }
 }
-// module.exports = Marking;

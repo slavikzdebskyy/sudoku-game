@@ -56,5 +56,3 @@ export default class TurnsRegistrator {
     this.redoStackTurns.pop();   
   }  
 }
-
-// module.exports = TurnsRegistrator;

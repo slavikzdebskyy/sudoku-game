@@ -1,4 +1,5 @@
-const BoardArray = require('./board_array');
+import BoardArray from './board_array';
+
 const boardArr = new BoardArray;
 
 expect.extend({

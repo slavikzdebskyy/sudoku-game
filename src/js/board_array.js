@@ -1,4 +1,4 @@
-class BoardArray {  
+export default class BoardArray {  
 
   copyArray (copyArray, originalArray) {  
     copyArray.length = 0;
@@ -203,7 +203,6 @@ class BoardArray {
   }
 }
 
-module.exports = BoardArray;
 
 
 

@@ -1,4 +1,4 @@
-const Check = require('./checking');
+import Check from './checking';
 
 const check = new Check;
 const testArray = [   

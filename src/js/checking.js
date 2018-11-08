@@ -1,4 +1,4 @@
-class Check {
+export default class Check {
   
   checkSimpleArr (array) { 
     let isUnique = true;
@@ -77,4 +77,3 @@ class Check {
     }  
   }
 }
-module.exports = Check;
