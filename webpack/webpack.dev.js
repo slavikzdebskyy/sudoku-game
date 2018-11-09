@@ -46,12 +46,11 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve('./index.html')
-    }),
+    }),    
     new CopyWebpackPlugin([
-      {
-        from: './src/css/style.css',
-        to: 'src/css'
-      },
+      './src/css/style.css',
+      './favicon-96x96.png',
+      './src/js/service_worker.js'
     ])
   ],
   devServer: {
