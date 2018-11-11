@@ -1,2 +1,3 @@
 node_modules
 stylelint.config.js
+service_worker_reg.js

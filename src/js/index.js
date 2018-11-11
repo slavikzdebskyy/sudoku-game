@@ -6,7 +6,8 @@ import Check from './checking.js';
 import Board from './board.js';
 import Timer from './timer.js';
 import Marking from './marking.js';
-import { shemeArray } from './sheme_array.js';  
+import { shemeArray } from './sheme_array.js';
+import serviceWorkerRegistrator from './service_worker_reg'; 
 
 const $boardContainer = document.getElementById('board-container');
 const $modalWindow = document.getElementById('modal-check-window');
@@ -129,12 +130,8 @@ $modalWindow.addEventListener('click', () => {
   $modalWindow.classList.remove('active');  
 });
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker
-    .register('service_worker.js', {scope: './'})
-    .then(registration => console.log(registration))
-    .catch(error => console.error(error));
-}
+
+serviceWorkerRegistrator();
 
 
 
