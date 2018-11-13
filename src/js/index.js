@@ -7,7 +7,7 @@ import Board from './board.js';
 import Timer from './timer.js';
 import Marking from './marking.js';
 import { shemeArray } from './sheme_array.js';
-import serviceWorkerRegistrator from './service_worker_reg'; 
+import { serviceWorkerRegistrator } from './service_worker_reg.js'; 
 
 const $boardContainer = document.getElementById('board-container');
 const $modalWindow = document.getElementById('modal-check-window');
@@ -130,7 +130,22 @@ $modalWindow.addEventListener('click', () => {
   $modalWindow.classList.remove('active');  
 });
 
+const dispatchEventNew = $btn => {
+  const event = document.createEvent('HTMLEvents');    
+  // const filledCellsArray = [];
+  event.initEvent('click', true, true);
+  $btn.dispatchEvent(event);
+  // for (const el of $cells) {
+  //   if (el.value) {
+  //     filledCellsArray.push(el.value);
+  //   }
+  // }
+  // if (filledCellsArray.length === 81) {
+   
+  // }  
+};
 
+dispatchEventNew($newGameBtn);
 serviceWorkerRegistrator();
 
 

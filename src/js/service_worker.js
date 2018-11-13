@@ -3,7 +3,8 @@ const files = [
   '/index.html',
   '/style.css',
   '/bundle.js',
-  '/favicon-96x96.png'  
+  '/favicon-96x96.png',
+  '/service_worker.js' 
 ];
 
 this.addEventListener('install', event => {

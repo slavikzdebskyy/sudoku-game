@@ -16,11 +16,13 @@ module.exports = {
     rules: [
       {
         test: /\.js?$/,
-        exclude: [/(node_modules)/, /\.spec\.js$/],
+        exclude: [/(node_modules)/, /\.spec\.js$/, '/service_worker.js/'],
         include: [
           path.resolve(__dirname, './src/js')
         ],
-        use: []
+        use: {
+          loader: 'babel-loader'
+        }
       },
       {
         test: /\.scss$/,
